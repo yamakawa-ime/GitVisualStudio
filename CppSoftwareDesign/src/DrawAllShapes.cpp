@@ -16,6 +16,9 @@ void drawAllShapes(const std::vector<std::unique_ptr<Shape>>& shapes)
 		case square:
 			draw(static_cast<const Square&>(*shape));
 			break;
+		case triangle:
+			//draw(static_cast<const Triangle&>(*shape));
+			break;
 		}
 	}
 }

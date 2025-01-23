@@ -20,15 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DrawAllShapes.cpp" />
-    <ClCompile Include="src\DrawCircle.cpp" />
-    <ClCompile Include="src\DrawSquare.cpp" />
+    <ClCompile Include="src\Circle.cpp" />
+    <ClCompile Include="src\Square.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\DrawAllShapes.h" />
-    <ClInclude Include="src\DrawCircle.h" />
-    <ClInclude Include="src\DrawSquare.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\Square.h" />

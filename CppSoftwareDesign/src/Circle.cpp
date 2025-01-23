@@ -1,9 +1,8 @@
-#include "DrawCircle.h"
 #include "Circle.h"
 
 #include <iostream>
 
-void draw(const Circle&)
+void Circle::draw() const
 {
 	// ‰½‚©‚µ‚ç‚ÌGraphicƒ‰ƒCƒuƒ‰ƒŠ‚ÅCircle‚ð•`‰æ‚·‚é
 	std::cout << "Circle" << std::endl;

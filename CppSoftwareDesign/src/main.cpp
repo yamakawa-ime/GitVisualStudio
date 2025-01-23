@@ -18,6 +18,6 @@ int main()
 
 	drawAllShapes(shapes);
 
-	cout << "end" << endl;
+	cout << "--end--" << endl;
 }
 

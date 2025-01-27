@@ -59,5 +59,8 @@
     <ClInclude Include="src\Draw.h">
       <Filter>ヘッダー ファイル\Visitor</Filter>
     </ClInclude>
+    <ClInclude Include="src\Translate.h">
+      <Filter>ヘッダー ファイル\Visitor</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

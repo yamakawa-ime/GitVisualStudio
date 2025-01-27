@@ -33,6 +33,7 @@
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\ShapeVisitor.h" />
     <ClInclude Include="src\Square.h" />
+    <ClInclude Include="src\Translate.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

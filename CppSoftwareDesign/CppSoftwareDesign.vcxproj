@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Draw.cpp" />
     <ClCompile Include="src\DrawAllShapes.cpp" />
     <ClCompile Include="src\Circle.cpp" />
     <ClCompile Include="src\Square.cpp" />

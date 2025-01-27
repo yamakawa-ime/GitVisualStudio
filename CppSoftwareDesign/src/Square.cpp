@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-void Square::draw() const
+#include "ShapeVisitor.h"
+
+void Square::accept(const ShapeVisitor& v)
 {
-	// ³•ûŒ`‚ğ•`‰æ
-	std::cout << "Square" << std::endl;
+	v.visit(*this);
 }

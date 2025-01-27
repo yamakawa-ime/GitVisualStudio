@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Visitor">
+      <UniqueIdentifier>{f88535d5-4e4a-40fb-bca7-e8cb4d241f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Visitor">
+      <UniqueIdentifier>{6c3bab1c-c067-4a88-bf23-9b9ff4db3862}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -26,6 +32,9 @@
     </ClCompile>
     <ClCompile Include="src\DrawAllShapes.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Draw.cpp">
+      <Filter>ソース ファイル\Visitor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -43,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="src\DrawAllShapes.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShapeVisitor.h">
+      <Filter>ヘッダー ファイル\Visitor</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Draw.h">
+      <Filter>ヘッダー ファイル\Visitor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

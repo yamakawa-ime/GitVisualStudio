@@ -1,4 +1,8 @@
-#pragma once
+#ifndef __SHAPE_H__
+#define __SHAPE_H__
+
+class ShapeVisitor;
+
 class Shape
 {
 protected:
@@ -6,6 +10,9 @@ protected:
 
 public:
 	virtual ~Shape() = default;
-	
-	virtual void draw() const = 0;
+	virtual void accept(const ShapeVisitor& v) = 0;
 };
+
+#endif // !__SHAPE_H__
+
+

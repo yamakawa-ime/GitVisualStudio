@@ -1,6 +1,8 @@
 #include "Circle.h"
 #include "Square.h"
 #include "DrawAllShapes.h"
+#include "Shape.h"
+#include "ShapeVisitor.h"
 #include <memory>
 #include <vector>
 #include <iostream>

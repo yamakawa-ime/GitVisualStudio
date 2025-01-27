@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Draw.cpp" />
     <ClCompile Include="src\DrawAllShapes.cpp" />
     <ClCompile Include="src\Circle.cpp" />
     <ClCompile Include="src\Square.cpp" />
@@ -26,9 +27,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Circle.h" />
+    <ClInclude Include="src\Draw.h" />
     <ClInclude Include="src\DrawAllShapes.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />
+    <ClInclude Include="src\ShapeVisitor.h" />
     <ClInclude Include="src\Square.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

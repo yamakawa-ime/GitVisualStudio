@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-void Circle::draw() const
+#include "ShapeVisitor.h"
+
+void Circle::accept(const ShapeVisitor& v)
 {
-	// ‰½‚©‚µ‚ç‚ÌGraphicƒ‰ƒCƒuƒ‰ƒŠ‚ÅCircle‚ð•`‰æ‚·‚é
-	std::cout << "Circle" << std::endl;
+	v.visit(*this);
 }

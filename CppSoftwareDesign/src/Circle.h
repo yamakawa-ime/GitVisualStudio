@@ -1,5 +1,6 @@
-#pragma once
-#include "Point.h"
+#ifndef __CIRCLE_H__
+#define __CIRCLE_H__
+
 #include "Shape.h"
 
 class Circle : public Shape
@@ -10,12 +11,11 @@ public:
 		// radiusの値チェック
 	}
 
-	double radius() const { return radius_; }
-	Point center() const { return center_; }
+	void accept(const ShapeVisitor& v) override;
 
-	void draw() const override;
+	double radius() const { return radius_; }
 
 private:
 	double radius_;
-	Point center_{};
 };
+#endif

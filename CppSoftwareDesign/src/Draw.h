@@ -1,19 +1,19 @@
 #ifndef __DRAW_H__
 #define __DRAW_H__
 
-#include "ShapeVisitor.h"
+#include "Shape.h"
 #include <iostream>
 
-class Draw : public ShapeVisitor
+class Draw
 {
 public:
-	void visit(const Circle& c) const override
+	void operator()(const Circle& c) const
 	{
-		std::cout << "Circle draw visitor" << std::endl;
+		std::cout << "Circle variant" << std::endl;
 	}
-	void visit(const Square& s) const override
+	void operator()(const Square& s) const
 	{
-		std::cout << "Square draw visitor" << std::endl;
+		std::cout << "Square variant" << std::endl;
 	}
 };
 

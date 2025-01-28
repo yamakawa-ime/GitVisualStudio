@@ -1,17 +1,12 @@
 #ifndef __SHAPE_H__
 #define __SHAPE_H__
 
-class ShapeVisitor;
+#include <variant>
+#include "Circle.h"
+#include "Square.h"
 
-class Shape
-{
-protected:
-	Shape() = default;
+using Shape = std::variant<Circle, Square>;
 
-public:
-	virtual ~Shape() = default;
-	virtual void accept(const ShapeVisitor& v) = 0;
-};
 
 #endif // !__SHAPE_H__
 

@@ -1,10 +1,7 @@
 #ifndef __DRAWALLSHAPES_H__
 #define __DRAWALLSHAPES_H__
 
-#include <memory>
-#include <vector>
+#include "Shapes.h"
 
-class Shape;
-
-void drawAllShapes(const std::vector<std::unique_ptr<Shape>>& shapes);
+void drawAllShapes(const Shapes& shapes);
 #endif

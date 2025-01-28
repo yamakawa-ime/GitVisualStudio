@@ -1,18 +1,15 @@
 #ifndef __CIRCLE_H__
 #define __CIRCLE_H__
 
-#include "Shape.h"
 #include "Point.h"
 
-class Circle : public Shape
+class Circle
 {
 public:
 	explicit Circle(double radius) : radius_(radius) 
 	{
 		// radiusの値チェック
 	}
-
-	void accept(const ShapeVisitor& v) override;
 
 	double radius() const { return radius_; }
 	Point center() const { return center_; }

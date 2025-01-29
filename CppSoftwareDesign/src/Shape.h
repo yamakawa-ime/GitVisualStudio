@@ -1,12 +1,13 @@
 #ifndef __SHAPE_H__
 #define __SHAPE_H__
 
-#include <variant>
-#include "Circle.h"
-#include "Square.h"
+class Shape
+{
+public:
+	virtual ~Shape() = default;
 
-using Shape = std::variant<Circle, Square>;
-
+	virtual void draw() const = 0;
+};
 
 #endif // !__SHAPE_H__
 

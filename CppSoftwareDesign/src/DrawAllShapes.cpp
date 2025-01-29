@@ -3,8 +3,8 @@
 
 void drawAllShapes(const Shapes& shapes)
 {
-	for (const auto& shape : shapes)
-	{
-		std::visit(Draw{}, shape);
-	}
+	//for (const auto& shape : shapes)
+	//{
+	//	std::visit(Draw{}, shape);
+	//}
 }

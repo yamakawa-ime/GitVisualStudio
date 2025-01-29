@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DrawAllShapes.cpp" />
+    <ClCompile Include="src\DrawStrategy.h" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>

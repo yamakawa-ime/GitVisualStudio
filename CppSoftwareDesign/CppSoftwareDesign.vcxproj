@@ -19,17 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\DrawAllShapes.cpp" />
     <ClCompile Include="src\DrawStrategy.h" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Draw.h" />
-    <ClInclude Include="src\DrawAllShapes.h" />
+    <ClInclude Include="src\OpenGLCircleStrategy.h" />
+    <ClInclude Include="src\OpenGLSquareStrategy.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />
-    <ClInclude Include="src\Shapes.h" />
     <ClInclude Include="src\Square.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

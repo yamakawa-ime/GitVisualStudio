@@ -10,7 +10,7 @@
 class Circle : public Shape
 {
 public:
-	explicit Circle(double radius, std::unique_ptr<DrawStrategy> drawer) 
+	explicit Circle(double radius, std::unique_ptr<DrawStrategy<Circle>> drawer) 
 		: radius_(radius), drawer_(std::move(drawer))
 	{
 		// radiusの値チェック
@@ -27,6 +27,6 @@ public:
 private:
 	double radius_;
 	Point center_{};
-	std::unique_ptr<DrawStrategy> drawer_;
+	std::unique_ptr<DrawStrategy<Circle>> drawer_;
 };
 #endif

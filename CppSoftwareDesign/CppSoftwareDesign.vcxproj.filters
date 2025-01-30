@@ -16,13 +16,16 @@
     <Filter Include="ヘッダー ファイル\Visitor">
       <UniqueIdentifier>{f88535d5-4e4a-40fb-bca7-e8cb4d241f01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Strategy">
+      <UniqueIdentifier>{b03ce610-06eb-4e37-abbb-946e99f4c2e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\DrawAllShapes.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="src\DrawStrategy.h">
+      <Filter>ヘッダー ファイル\Strategy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,14 +41,14 @@
     <ClInclude Include="src\Square.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\DrawAllShapes.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Draw.h">
       <Filter>ヘッダー ファイル\Visitor</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shapes.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="src\OpenGLCircleStrategy.h">
+      <Filter>ヘッダー ファイル\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OpenGLSquareStrategy.h">
+      <Filter>ヘッダー ファイル\Strategy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

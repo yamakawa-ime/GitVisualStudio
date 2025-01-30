@@ -10,7 +10,7 @@
 class Square : public Shape
 {
 public:
-	explicit Square(double side, std::unique_ptr<DrawStrategy> drawer) 
+	explicit Square(double side, std::unique_ptr<DrawStrategy<Square>> drawer) 
 		: side_(side), drawer_(std::move(drawer)) { }
 
 	double side() const { return side_; }
@@ -24,7 +24,7 @@ public:
 private:
 	double side_;
 	Point center_{};
-	std::unique_ptr<DrawStrategy> drawer_;
+	std::unique_ptr<DrawStrategy<Square>> drawer_;
 };
 
 #endif

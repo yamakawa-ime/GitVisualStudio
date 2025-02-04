@@ -19,6 +19,9 @@
     <Filter Include="ヘッダー ファイル\Strategy">
       <UniqueIdentifier>{b03ce610-06eb-4e37-abbb-946e99f4c2e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Command">
+      <UniqueIdentifier>{9b99d8fc-7249-4723-b792-1d771e7c1bbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -49,6 +52,9 @@
     </ClInclude>
     <ClInclude Include="src\OpenGLSquareStrategy.h">
       <Filter>ヘッダー ファイル\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CalculatorCommand.h">
+      <Filter>ヘッダー ファイル\Command</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -23,6 +23,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CalculatorCommand.h" />
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Draw.h" />
     <ClInclude Include="src\OpenGLCircleStrategy.h" />

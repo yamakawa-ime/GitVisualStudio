@@ -1,26 +1,30 @@
+#include "Calculator.h"
+#include "Add.h"
+#include "Subtract.h"
+#include <cstdlib>
 #include <iostream>
-#include <vector>
-#include "Circle.h"
-#include "Square.h"
-#include "OpenGLCircleStrategy.h"
-#include "OpenGLSquareStrategy.h"
 
 using namespace std;
 
 int main()
 {
-	using Shapes = std::vector<std::unique_ptr<Shape>>;
+	Calculator calculator{};
 
-	Shapes shapes{};
-	shapes.emplace_back(std::make_unique<Circle>(2.3, std::make_unique<OpenGLCircleStrategy>()));
-	shapes.emplace_back(std::make_unique<Circle>(2.3, std::make_unique<OpenGLCircleStrategy>()));
-	shapes.emplace_back(std::make_unique<Square>(2.3, std::make_unique<OpenGLSquareStrategy>()));
+	auto op1 = std::make_unique<Add>(3);
+	auto op2 = std::make_unique<Add>(7);
+	auto op3 = std::make_unique<Subtract>(4);
+	auto op4 = std::make_unique<Subtract>(2);
 
-	for (const auto& shape : shapes)
-	{
-		shape->draw();
-	}
+	calculator.compute(std::move(op1));
+	calculator.compute(std::move(op2));
+	calculator.compute(std::move(op3));
+	calculator.compute(std::move(op4));
 
+	cout << calculator.result() << endl;
+
+	calculator.undoLast();
+
+	cout << calculator.result() << endl;
 
 	cout << "--end--" << endl;
 }

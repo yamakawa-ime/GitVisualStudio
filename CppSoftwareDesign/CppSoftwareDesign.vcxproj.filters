@@ -56,5 +56,14 @@
     <ClInclude Include="src\CalculatorCommand.h">
       <Filter>ヘッダー ファイル\Command</Filter>
     </ClInclude>
+    <ClInclude Include="src\Add.h">
+      <Filter>ヘッダー ファイル\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Subtract.h">
+      <Filter>ヘッダー ファイル\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Calculator.h">
+      <Filter>ヘッダー ファイル\Command</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

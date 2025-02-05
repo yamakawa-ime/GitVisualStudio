@@ -23,6 +23,8 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Add.h" />
+    <ClInclude Include="src\Calculator.h" />
     <ClInclude Include="src\CalculatorCommand.h" />
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Draw.h" />
@@ -31,6 +33,7 @@
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\Square.h" />
+    <ClInclude Include="src\Subtract.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

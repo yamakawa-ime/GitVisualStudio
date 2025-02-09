@@ -1,15 +1,21 @@
 #pragma once
 
-#include "CalculatorCommand.h"
 #include <stack>
 #include <memory>
+#include <functional>
+#include <tuple>
 
 class Calculator
 {
 public:
-	void compute(std::unique_ptr<CalculatorCommand> command)
+	using ExecuteCommand = std::function<int(int)>;
+	using UndoCommand = std::function<int(int)>;
+	using CalculatorCommand = std::tuple<ExecuteCommand, UndoCommand>;
+
+
+	void compute(CalculatorCommand command)
 	{
-		current_ = command->execute(current_);
+		current_ = std::get<0>(command)(current_);
 		stack_.push(std::move(command));
 	}
 
@@ -20,7 +26,7 @@ public:
 		auto command = std::move(stack_.top());
 		stack_.pop();
 
-		current_ = command->undo(current_);
+		current_ = std::get<1>(command)(current_);
 	}
 
 	int result() const { return current_; }
@@ -31,7 +37,7 @@ public:
 		CommandStack{}.swap(stack_);
 	}
 private:
-	using CommandStack = std::stack<std::unique_ptr<CalculatorCommand>>;
+	using CommandStack = std::stack<CalculatorCommand>;
 
 	int current_{};
 	CommandStack stack_;

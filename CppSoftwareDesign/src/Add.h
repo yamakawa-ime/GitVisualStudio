@@ -1,21 +1,14 @@
 #pragma once
 
-#include "CalculatorCommand.h"
+#include <functional>
 
-class Add : public CalculatorCommand
+class Add
 {
 public:
 	explicit Add(int operand) : operand_{ operand } {}
 
-	int execute(int i) const override
-	{
-		return i + operand_;
-	}
-
-	int undo(int i) const override
-	{
-		return i - operand_;
-	}
+	std::function<int(int)> execute = [this](int i) { return i + operand_; };
+	std::function<int(int)> undo = [this](int i) { return i - operand_; };
 
 private:
 	int operand_{};

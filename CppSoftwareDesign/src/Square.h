@@ -3,14 +3,16 @@
 
 #include "Point.h"
 #include "Shape.h"
-#include "DrawStrategy.h"
 #include <memory>
 #include <utility>
+#include <functional>
 
 class Square : public Shape
 {
 public:
-	explicit Square(double side, std::unique_ptr<DrawStrategy<Square>> drawer) 
+	using DrawStrategy = std::function<void(const Square&)>;
+
+	explicit Square(double side, DrawStrategy drawer) 
 		: side_(side), drawer_(std::move(drawer)) { }
 
 	double side() const { return side_; }
@@ -18,13 +20,13 @@ public:
 
 	void draw() const override
 	{
-		drawer_->draw(*this);
+		drawer_(*this);
 	}
 
 private:
 	double side_;
 	Point center_{};
-	std::unique_ptr<DrawStrategy<Square>> drawer_;
+	DrawStrategy drawer_;
 };
 
 #endif

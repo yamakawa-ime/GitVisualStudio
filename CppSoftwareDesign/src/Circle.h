@@ -3,14 +3,16 @@
 
 #include "Point.h"
 #include "Shape.h"
-#include "DrawStrategy.h"
 #include <memory>
 #include <utility>
+#include <functional>
 
 class Circle : public Shape
 {
 public:
-	explicit Circle(double radius, std::unique_ptr<DrawStrategy<Circle>> drawer) 
+	using DrawStrategy = std::function<void(const Circle&)>;
+
+	explicit Circle(double radius,  DrawStrategy drawer) 
 		: radius_(radius), drawer_(std::move(drawer))
 	{
 		// radiusの値チェック
@@ -21,12 +23,12 @@ public:
 
 	void draw() const override
 	{
-		drawer_->draw(*this);
+		drawer_(*this);
 	}
 
 private:
 	double radius_;
 	Point center_{};
-	std::unique_ptr<DrawStrategy<Circle>> drawer_;
+	DrawStrategy drawer_;
 };
 #endif

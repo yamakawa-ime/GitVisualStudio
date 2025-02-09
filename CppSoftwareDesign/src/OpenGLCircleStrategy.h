@@ -1,14 +1,15 @@
 #pragma once
-#include "DrawStrategy.h"
 #include "Circle.h"
 #include <iostream>
 
-class OpenGLCircleStrategy : public DrawStrategy<Circle>
+class OpenGLCircleStrategy 
 {
 public:
-	virtual void draw(const Circle& c) const override
+	explicit OpenGLCircleStrategy() = default;
+
+	void operator()(const Circle& circle) const
 	{
-		std::cout << "openGL Circle " << std::endl;
-	}
+		std::cout << "OpenGLCircleStrategy: draw circle with radius " << circle.radius() << std::endl;
+	}	
 
 };

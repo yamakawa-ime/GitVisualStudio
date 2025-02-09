@@ -1,14 +1,15 @@
 #pragma once
 
-#include "DrawStrategy.h"
 #include "Square.h"
 #include <iostream>
 
-class OpenGLSquareStrategy : public DrawStrategy<Square>
+class OpenGLSquareStrategy 
 {
 public:
-	virtual void draw(const Square& s) const override
+	explicit OpenGLSquareStrategy() = default;
+
+	void operator()(const Square& square) const
 	{
-		std::cout << "OpenGL Square" << std::endl;
+		std::cout << "OpenGLSquareStrategy: draw square with side " << square.side() << std::endl;
 	}
 };

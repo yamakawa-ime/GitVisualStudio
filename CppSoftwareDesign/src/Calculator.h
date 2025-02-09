@@ -4,18 +4,15 @@
 #include <memory>
 #include <functional>
 #include <tuple>
+#include "CalculatorCommand.h"
 
 class Calculator
 {
 public:
-	using ExecuteCommand = std::function<int(int)>;
-	using UndoCommand = std::function<int(int)>;
-	using CalculatorCommand = std::tuple<ExecuteCommand, UndoCommand>;
 
-
-	void compute(CalculatorCommand command)
+	void compute(Command command)
 	{
-		current_ = std::get<0>(command)(current_);
+		current_ = command.execute(current_);
 		stack_.push(std::move(command));
 	}
 
@@ -26,7 +23,7 @@ public:
 		auto command = std::move(stack_.top());
 		stack_.pop();
 
-		current_ = std::get<1>(command)(current_);
+		current_ = command.undo(current_);
 	}
 
 	int result() const { return current_; }
@@ -37,7 +34,7 @@ public:
 		CommandStack{}.swap(stack_);
 	}
 private:
-	using CommandStack = std::stack<CalculatorCommand>;
+	using CommandStack = std::stack<Command>;
 
 	int current_{};
 	CommandStack stack_;

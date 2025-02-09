@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include "CalculatorCommand.h"
 
 class Add
 {
@@ -12,4 +13,19 @@ public:
 
 private:
 	int operand_{};
+};
+
+class AddCommand
+{
+public:
+	explicit AddCommand() {}
+
+	Command operator()(int operand) const
+	{
+		return Command{
+			[&](int x) { return x + operand; },
+			[&](int x) { return x - operand; }
+		};
+	}
+
 };

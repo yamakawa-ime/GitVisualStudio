@@ -15,11 +15,10 @@ int main()
 {
 	Calculator calculator{};
 
-	Add addCommand{ 3 };
-	calculator.compute(std::make_tuple(addCommand.execute, addCommand.undo));
-	calculator.compute(std::make_tuple(Add{ 7 }.execute, Add{ 7 }.undo));
-	calculator.compute(std::make_tuple(Subtract{ 4 }.execute, Subtract{ 4 }.undo));
-	calculator.compute(std::make_tuple(Subtract{ 2 }.execute, Subtract{ 2 }.undo));
+	calculator.compute(AddCommand{}(3));
+	calculator.compute(AddCommand{}(7));
+	calculator.compute(SubtractCommand(4)());
+	calculator.compute(SubtractCommand(2)());
 
 	cout << calculator.result() << endl;
 

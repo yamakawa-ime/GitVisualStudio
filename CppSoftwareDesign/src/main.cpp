@@ -11,6 +11,9 @@
 #include "MallardDuck.h"
 #include "WildTurkey.h"
 #include "TurkeyAdapter.h"
+#include "AddressObserver.h"
+#include "NameObserver.h"
+#include "Person.h"
 
 using namespace std;
 
@@ -62,7 +65,19 @@ int main()
 	{
 		duck->quack();
 	}
+	cout << "--end--" << endl;
 
+	NameObserver nameObserver;
+	AddressObserver addressObserver;
+
+	Person takuya{ "yamakawa", "takuya" };
+
+	takuya.attach(&nameObserver);
+	takuya.attach(&addressObserver);
+
+	takuya.forename("aaaaaaaa");
+	takuya.address("afffffffff");
+	takuya.forename("aaaaaaaaaa");
 
 
 	cout << "--end--" << endl;

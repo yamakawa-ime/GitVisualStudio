@@ -25,6 +25,9 @@
     <Filter Include="ヘッダー ファイル\Adapter">
       <UniqueIdentifier>{7cfe15b4-3bde-4ace-b3d9-a3e9063c451f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Observer">
+      <UniqueIdentifier>{39dfffcd-dfe4-4199-9de2-26352f12d03a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -82,6 +85,18 @@
     </ClInclude>
     <ClInclude Include="src\TurkeyAdapter.h">
       <Filter>ヘッダー ファイル\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Observer.h">
+      <Filter>ヘッダー ファイル\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Person.h">
+      <Filter>ヘッダー ファイル\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NameObserver.h">
+      <Filter>ヘッダー ファイル\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\AddressObserver.h">
+      <Filter>ヘッダー ファイル\Observer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

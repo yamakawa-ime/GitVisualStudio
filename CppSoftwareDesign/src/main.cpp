@@ -8,6 +8,9 @@
 #include "OpenGLCircleStrategy.h"
 #include "OpenGLSquareStrategy.h"
 #include "Square.h"
+#include "MallardDuck.h"
+#include "WildTurkey.h"
+#include "TurkeyAdapter.h"
 
 using namespace std;
 
@@ -40,6 +43,27 @@ int main()
 	{
 		shape->draw();
 	}
+
+	cout << "--end--" << endl;
+	
+	using DuckChoir = std::vector<std::unique_ptr<Duck>>;
+
+	DuckChoir duck_choir{};
+
+	duck_choir.push_back(std::make_unique<MallardDuck>());
+
+	auto turkey = std::make_unique<WildTurkey>();
+	auto turkey_in_disguise = std::make_unique<TurkeyAdapter>(std::move(turkey));
+	duck_choir.push_back(std::move(turkey_in_disguise));
+
+	duck_choir.push_back(std::make_unique<TurkeyAdapter>(std::make_unique<WildTurkey>()));
+
+	for (const auto& duck : duck_choir)
+	{
+		duck->quack();
+	}
+
+
 
 	cout << "--end--" << endl;
 }

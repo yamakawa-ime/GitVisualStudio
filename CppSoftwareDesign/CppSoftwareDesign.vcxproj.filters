@@ -22,6 +22,9 @@
     <Filter Include="ヘッダー ファイル\Command">
       <UniqueIdentifier>{9b99d8fc-7249-4723-b792-1d771e7c1bbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Adapter">
+      <UniqueIdentifier>{7cfe15b4-3bde-4ace-b3d9-a3e9063c451f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -64,6 +67,21 @@
     </ClInclude>
     <ClInclude Include="src\Calculator.h">
       <Filter>ヘッダー ファイル\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Duck.h">
+      <Filter>ヘッダー ファイル\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MallardDuck.h">
+      <Filter>ヘッダー ファイル\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Turkey.h">
+      <Filter>ヘッダー ファイル\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WildTurkey.h">
+      <Filter>ヘッダー ファイル\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TurkeyAdapter.h">
+      <Filter>ヘッダー ファイル\Adapter</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

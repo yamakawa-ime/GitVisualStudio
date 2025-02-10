@@ -28,12 +28,17 @@
     <ClInclude Include="src\CalculatorCommand.h" />
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Draw.h" />
+    <ClInclude Include="src\Duck.h" />
+    <ClInclude Include="src\MallardDuck.h" />
     <ClInclude Include="src\OpenGLCircleStrategy.h" />
     <ClInclude Include="src\OpenGLSquareStrategy.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />
     <ClInclude Include="src\Square.h" />
     <ClInclude Include="src\Subtract.h" />
+    <ClInclude Include="src\Turkey.h" />
+    <ClInclude Include="src\TurkeyAdapter.h" />
+    <ClInclude Include="src\WildTurkey.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

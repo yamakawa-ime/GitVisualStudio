@@ -14,6 +14,7 @@
 #include "AddressObserver.h"
 #include "NameObserver.h"
 #include "Person.h"
+#include "Distance.h"
 
 using namespace std;
 
@@ -79,6 +80,16 @@ int main()
 	takuya.address("afffffffff");
 	takuya.forename("aaaaaaaaaa");
 
+
+	cout << "--end--" << endl;
+
+	const auto m1 = Meter<long>{ 120L };
+	const auto m2 = Meter<long>{ 122L };
+	const auto km = Kilometer<long>{ 30L };
+
+	auto m3 = m1 + m2;
+
+	cout << m3.get() << endl;
 
 	cout << "--end--" << endl;
 }

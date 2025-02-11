@@ -28,6 +28,9 @@
     <Filter Include="ヘッダー ファイル\Observer">
       <UniqueIdentifier>{39dfffcd-dfe4-4199-9de2-26352f12d03a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\CRTP">
+      <UniqueIdentifier>{6713e08d-869e-4f2a-bbee-5fab03c08cf7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -97,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="src\AddressObserver.h">
       <Filter>ヘッダー ファイル\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\StrongType.h">
+      <Filter>ヘッダー ファイル\CRTP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Distance.h">
+      <Filter>ヘッダー ファイル\CRTP</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

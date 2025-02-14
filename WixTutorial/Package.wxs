@@ -1,0 +1,10 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="WixTutorial" Manufacturer="TODO Manufacturer" Version="1.0.0.0" UpgradeCode="80502c0e-9b7e-42d7-9a5a-e12e7c66a49e">
+    <!-- アップグレードをする命令 -->
+    <MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+    <Feature Id="Main">
+      <ComponentGroupRef Id="ExampleComponents" />
+    </Feature>
+  </Package>
+</Wix>

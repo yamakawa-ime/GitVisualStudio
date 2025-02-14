@@ -5,22 +5,42 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CppSoftwareDesign", "CppSoftwareDesign\CppSoftwareDesign.vcxproj", "{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}"
 EndProject
+Project("{B7DD6F7E-DEF8-4E67-B5B7-07EF123DB6F0}") = "WixTutorial", "WixTutorial\WixTutorial.wixproj", "{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Debug|ARM64.ActiveCfg = Debug|x64
+		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Debug|ARM64.Build.0 = Debug|x64
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Debug|x64.ActiveCfg = Debug|x64
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Debug|x64.Build.0 = Debug|x64
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Debug|x86.ActiveCfg = Debug|Win32
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Debug|x86.Build.0 = Debug|Win32
+		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Release|ARM64.ActiveCfg = Release|x64
+		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Release|ARM64.Build.0 = Release|x64
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Release|x64.ActiveCfg = Release|x64
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Release|x64.Build.0 = Release|x64
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Release|x86.ActiveCfg = Release|Win32
 		{7A1E9CD8-BDB8-46B9-8BA6-369F71A53911}.Release|x86.Build.0 = Release|Win32
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Debug|ARM64.Build.0 = Debug|ARM64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Debug|x64.ActiveCfg = Debug|x64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Debug|x64.Build.0 = Debug|x64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Debug|x86.ActiveCfg = Debug|x86
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Debug|x86.Build.0 = Debug|x86
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Release|ARM64.ActiveCfg = Release|ARM64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Release|ARM64.Build.0 = Release|ARM64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Release|x64.ActiveCfg = Release|x64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Release|x64.Build.0 = Release|x64
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Release|x86.ActiveCfg = Release|x86
+		{13769DE4-4650-4C2C-860A-9C90BC9B4A8D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

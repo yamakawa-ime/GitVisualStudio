@@ -25,6 +25,7 @@
   <ItemGroup>
     <ClInclude Include="src\Add.h" />
     <ClInclude Include="src\AddressObserver.h" />
+    <ClInclude Include="src\Animal.h" />
     <ClInclude Include="src\Calculator.h" />
     <ClInclude Include="src\CalculatorCommand.h" />
     <ClInclude Include="src\Circle.h" />
@@ -39,6 +40,7 @@
     <ClInclude Include="src\Person.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />
+    <ClInclude Include="src\Sheep.h" />
     <ClInclude Include="src\Square.h" />
     <ClInclude Include="src\StrongType.h" />
     <ClInclude Include="src\Subtract.h" />

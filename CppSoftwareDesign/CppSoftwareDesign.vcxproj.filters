@@ -31,6 +31,9 @@
     <Filter Include="ヘッダー ファイル\CRTP">
       <UniqueIdentifier>{6713e08d-869e-4f2a-bbee-5fab03c08cf7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Prototype">
+      <UniqueIdentifier>{6b3dd109-0a81-46b8-89f3-eee3f3e57f3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -106,6 +109,12 @@
     </ClInclude>
     <ClInclude Include="src\Distance.h">
       <Filter>ヘッダー ファイル\CRTP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animal.h">
+      <Filter>ヘッダー ファイル\Prototype</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sheep.h">
+      <Filter>ヘッダー ファイル\Prototype</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

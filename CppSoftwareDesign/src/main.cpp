@@ -15,6 +15,7 @@
 #include "NameObserver.h"
 #include "Person.h"
 #include "Distance.h"
+#include "Sheep.h"
 
 using namespace std;
 
@@ -92,5 +93,15 @@ int main()
 	cout << m3.get() << endl;
 
 	cout << "--end--" << endl;
+
+	const std::unique_ptr<Animal> dolly = std::make_unique<Sheep>("Dolly");
+	auto dollyClone = dolly->clone();
+
+	dolly->makeSound();
+	dollyClone->makeSound();
+
+
+	cout << "--end--" << endl;
+
 }
 

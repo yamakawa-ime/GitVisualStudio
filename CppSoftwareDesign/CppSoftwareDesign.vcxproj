@@ -36,6 +36,7 @@
     <ClInclude Include="src\NameObserver.h" />
     <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\OpenGLCircleStrategy.h" />
+    <ClInclude Include="src\OpenGLDrawStrategy.h" />
     <ClInclude Include="src\OpenGLSquareStrategy.h" />
     <ClInclude Include="src\Person.h" />
     <ClInclude Include="src\Point.h" />

@@ -5,8 +5,10 @@
 #include <iostream>
 #include <vector>
 #include "Circle.h"
+#include "Shape.h"
 #include "OpenGLCircleStrategy.h"
 #include "OpenGLSquareStrategy.h"
+#include "OpenGLDrawStrategy.h"
 #include "Square.h"
 #include "MallardDuck.h"
 #include "WildTurkey.h"
@@ -36,13 +38,16 @@ int main()
 
 	cout << "--end--" << endl;
 
-	using Shapes = std::vector<std::unique_ptr<Shape>>;
+	using Shapes = std::vector<std::unique_ptr<ShapeConcept>>;
+	using CircleModel = ShapeModel<Circle, OpenGLDrawStragegy>;
+	using SquareModel = ShapeModel<Square, OpenGLDrawStragegy>;
+
 	Shapes shapes{};
 
-	shapes.emplace_back(std::make_unique<Circle>(1.0, OpenGLCircleStrategy{}));
-	shapes.emplace_back(std::make_unique<Square>(2.0, OpenGLSquareStrategy{}));
-	shapes.emplace_back(std::make_unique<Circle>(3.0, OpenGLCircleStrategy{}));
-	shapes.emplace_back(std::make_unique<Square>(4.0, [&](const Square& s) { cout << "aaa" << endl; }));
+	shapes.emplace_back(std::make_unique<CircleModel>(Circle{ 2.3 }, OpenGLDrawStragegy()));
+	shapes.emplace_back(std::make_unique<SquareModel>(Square{ 2.3 }, OpenGLDrawStragegy()));
+	shapes.emplace_back(std::make_unique<CircleModel>(Circle{ 2.3 }, OpenGLDrawStragegy()));
+
 
 	for (const auto& shape : shapes)
 	{

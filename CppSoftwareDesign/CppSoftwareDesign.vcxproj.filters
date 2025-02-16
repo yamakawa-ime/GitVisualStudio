@@ -116,5 +116,8 @@
     <ClInclude Include="src\Sheep.h">
       <Filter>ヘッダー ファイル\Prototype</Filter>
     </ClInclude>
+    <ClInclude Include="src\OpenGLDrawStrategy.h">
+      <Filter>ヘッダー ファイル\Strategy</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

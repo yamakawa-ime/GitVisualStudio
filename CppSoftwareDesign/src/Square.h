@@ -19,4 +19,9 @@ private:
 	Point center_{};
 };
 
+bool operator==(Square const& lhs, Square const& rhs)
+{
+	return lhs.side() == rhs.side();
+}
+
 #endif

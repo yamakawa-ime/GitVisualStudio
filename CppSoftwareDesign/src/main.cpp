@@ -18,6 +18,7 @@
 #include "Person.h"
 #include "Distance.h"
 #include "Sheep.h"
+#include <any>
 
 using namespace std;
 
@@ -38,21 +39,14 @@ int main()
 
 	cout << "--end--" << endl;
 
-	using Shapes = std::vector<std::unique_ptr<ShapeConcept>>;
-	using CircleModel = ShapeModel<Circle, OpenGLDrawStragegy>;
-	using SquareModel = ShapeModel<Square, OpenGLDrawStragegy>;
+	Circle circle{ 3.14 };
+	auto drawer = [](const Circle& c) {std::cout << "derawer" << std::endl; };
+	Shape shape1(circle, drawer);
+	draw(shape1);
 
-	Shapes shapes{};
+	Shape shape2(shape1);
+	draw(shape2);
 
-	shapes.emplace_back(std::make_unique<CircleModel>(Circle{ 2.3 }, OpenGLDrawStragegy()));
-	shapes.emplace_back(std::make_unique<SquareModel>(Square{ 2.3 }, OpenGLDrawStragegy()));
-	shapes.emplace_back(std::make_unique<CircleModel>(Circle{ 2.3 }, OpenGLDrawStragegy()));
-
-
-	for (const auto& shape : shapes)
-	{
-		shape->draw();
-	}
 
 	cout << "--end--" << endl;
 	
@@ -107,6 +101,13 @@ int main()
 
 
 	cout << "--end--" << endl;
+
+
+
+
+
+	cout << "--end--" << endl;
+
 
 }
 

@@ -20,4 +20,10 @@ private:
 	double radius_;
 	Point center_{};
 };
+
+bool operator==(Circle const& lhs, Circle const& rhs)
+{
+	return lhs.radius() == rhs.radius();
+}
+
 #endif

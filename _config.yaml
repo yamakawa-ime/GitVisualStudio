@@ -1,1 +1,5 @@
-markdown: kramdown
+title: My Simple Site
+description: "Just a simple site using GitHub Pages and Markdown"
+url: "https://yamakawa-ime.github.io/GitVisualStudio/"  # あなたのGitHub PagesのURLに合わせてください
+baseurl: ""  # サブディレクトリに配置しない場合は空のままでOK
+markdown: kramdown  # デフォルトのMarkdownエンジン (そのままでOK)

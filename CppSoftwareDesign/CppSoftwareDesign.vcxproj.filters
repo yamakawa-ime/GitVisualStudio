@@ -34,6 +34,9 @@
     <Filter Include="ヘッダー ファイル\Prototype">
       <UniqueIdentifier>{6b3dd109-0a81-46b8-89f3-eee3f3e57f3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Decorator">
+      <UniqueIdentifier>{ddb03002-0934-4f27-852d-cd56f0e906ec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -118,6 +121,27 @@
     </ClInclude>
     <ClInclude Include="src\OpenGLDrawStrategy.h">
       <Filter>ヘッダー ファイル\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Money.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Item.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DecoratedItem.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CppBook.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConferenceTicket.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Discounted.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Taxed.h">
+      <Filter>ヘッダー ファイル\Decorator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

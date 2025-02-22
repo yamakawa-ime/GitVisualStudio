@@ -29,10 +29,16 @@
     <ClInclude Include="src\Calculator.h" />
     <ClInclude Include="src\CalculatorCommand.h" />
     <ClInclude Include="src\Circle.h" />
+    <ClInclude Include="src\ConferenceTicket.h" />
+    <ClInclude Include="src\CppBook.h" />
+    <ClInclude Include="src\DecoratedItem.h" />
+    <ClInclude Include="src\Discounted.h" />
     <ClInclude Include="src\Distance.h" />
     <ClInclude Include="src\Draw.h" />
     <ClInclude Include="src\Duck.h" />
+    <ClInclude Include="src\Item.h" />
     <ClInclude Include="src\MallardDuck.h" />
+    <ClInclude Include="src\Money.h" />
     <ClInclude Include="src\NameObserver.h" />
     <ClInclude Include="src\Observer.h" />
     <ClInclude Include="src\OpenGLCircleStrategy.h" />
@@ -45,6 +51,7 @@
     <ClInclude Include="src\Square.h" />
     <ClInclude Include="src\StrongType.h" />
     <ClInclude Include="src\Subtract.h" />
+    <ClInclude Include="src\Taxed.h" />
     <ClInclude Include="src\Turkey.h" />
     <ClInclude Include="src\TurkeyAdapter.h" />
     <ClInclude Include="src\WildTurkey.h" />

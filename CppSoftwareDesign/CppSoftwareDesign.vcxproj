@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="src\DrawStrategy.h" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\PersistanceInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Add.h" />
@@ -31,6 +32,7 @@
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\ConferenceTicket.h" />
     <ClInclude Include="src\CppBook.h" />
+    <ClInclude Include="src\Database.h" />
     <ClInclude Include="src\DecoratedItem.h" />
     <ClInclude Include="src\Discounted.h" />
     <ClInclude Include="src\Distance.h" />
@@ -44,6 +46,7 @@
     <ClInclude Include="src\OpenGLCircleStrategy.h" />
     <ClInclude Include="src\OpenGLDrawStrategy.h" />
     <ClInclude Include="src\OpenGLSquareStrategy.h" />
+    <ClInclude Include="src\PersistanceInterface.h" />
     <ClInclude Include="src\Person.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Shape.h" />

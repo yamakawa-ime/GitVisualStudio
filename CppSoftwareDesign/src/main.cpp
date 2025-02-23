@@ -19,7 +19,7 @@
 #include "Distance.h"
 #include "Sheep.h"
 #include <any>
-
+#include "PersistanceInterface.h"
 
 using namespace std;
 
@@ -103,8 +103,7 @@ int main()
 
 	cout << "--end--" << endl;
 
-
-
+	PersistanceInterface* persistance = get_persistance_interface();
 
 
 

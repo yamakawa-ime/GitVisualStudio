@@ -37,6 +37,12 @@
     <Filter Include="ヘッダー ファイル\Decorator">
       <UniqueIdentifier>{ddb03002-0934-4f27-852d-cd56f0e906ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Singleton">
+      <UniqueIdentifier>{30f971c1-c253-4b73-92aa-5b0667d9f927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Singleton">
+      <UniqueIdentifier>{08fb6e0f-e65a-4a0e-97c5-2ed7fce850e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -44,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="src\DrawStrategy.h">
       <Filter>ヘッダー ファイル\Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PersistanceInterface.cpp">
+      <Filter>ソース ファイル\Singleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +151,12 @@
     </ClInclude>
     <ClInclude Include="src\Taxed.h">
       <Filter>ヘッダー ファイル\Decorator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Database.h">
+      <Filter>ヘッダー ファイル\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PersistanceInterface.h">
+      <Filter>ヘッダー ファイル\Singleton</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

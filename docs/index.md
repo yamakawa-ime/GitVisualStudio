@@ -47,10 +47,11 @@
 - もし複数の物理ディスクでインストールする場合は、`<Media>`を利用する
  - `<Media>`のまとめは割愛する(p22を読むこと)
 
- #### Directoryタグについて
 
- ##### WindowsInstallerが定義済みのDirectoryプロパティ
- 
+#### Directoryタグについて
+
+##### WindowsInstallerが定義済みのDirectoryプロパティ
+
  | Directoryプロパティ | パス |
  | :--- | :--- |
  | AddminToolsFolder | 管理者権限ツールがあるパス |
@@ -81,4 +82,4 @@
 
 ※ MSDNでも確認できる
 
-- 必ず`<Directory>`のRootのIdは`TARGETDIR`、Nameは`SourceDir`とする必要がある
+- 必ず`<Directory>`のRootのIdは`TARGETDIR`、Nameは`SourceDir`とする必要があり、すべての`<Directory>`はこの`TARGETDIR`の子供とする

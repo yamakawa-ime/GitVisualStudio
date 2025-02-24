@@ -37,4 +37,13 @@
 - `InstallerVersion`は`msiexec.exe`(Windowsインストーラー本体)の特定のバージョンを指定する
   - Windowsインストーラーのメジャーバージョンに100倍してマイナーバージョンを足すと指定できる
   - Windowsインストーラーが4.5の場合は、405を指定する(msiexecで検索するとWindowsインストーラーのバージョンが確認できる)
+- `InstallScope`で`perUser`をせっていすると、現在のユーザーにインストールするが、WixのPropertyの`ALLUSERS`が設定されている(？)(Propetyを説明するときに解説する)
 
+#### MediaTemplate/Mediaタグについて
+- インストールする製品ソフトウエアはCABファイルとして圧縮され、MSIに埋め込むかどうか決めることができる
+  - `<MediaTemplate EmbedCab="yes" />`で、MSIにCABファイルを埋め込むことができる(最大200MB)
+  - `MaximumUncompressedMediaSize`属性で最大サイズを変更することができる
+  - もし1つのファイルが最大よりも大きい場合、十分なスペースで格納できるCABファイルに格納される(？)
+- もし複数の物理ディスクでインストールする場合は、`<Media>`を利用する
+ - `<Media>`のまとめは割愛する(p22を読むこと)
+ 

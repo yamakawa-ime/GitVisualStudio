@@ -27,4 +27,14 @@
 - `UpgradeCode`は`ProductCode`や`Version`が異なっていても、同じ製品であれば一定にする
   - Windowsは`UpgradeCode`でマシンにインストールされているソフトウエアを追いかける
 
+#### Packageタグについて
+- `<Packege>`で絶対必要な属性は`Compressed`で`yes`にするとMSIのリソースをCABファイルにする
+- `Id`も必要だが、省略することでWixが自動で付与してくれるので気にしない
+- `<Product>`は自分のソフトウエア(xxx.exe)について記述するが、`<Package>`はインストーラー自身(yyy.msi)を記述する野に利用する
+  - msiを右クリックのPropertiesで見るとその内容を確認できる
+  - `<Package>`の`Manufacturer, Description, Keywords, Comments`はそんなに必須じゃない印象
+  - `Manufacturer`はPropertiesのAuthorで表示、`Description`はSubjectで表示、`Keywords`はKeywordsで表示、`Comments`はCommentsで表示される
+- `InstallerVersion`は`msiexec.exe`(Windowsインストーラー本体)の特定のバージョンを指定する
+  - Windowsインストーラーのメジャーバージョンに100倍してマイナーバージョンを足すと指定できる
+  - Windowsインストーラーが4.5の場合は、405を指定する(msiexecで検索するとWindowsインストーラーのバージョンが確認できる)
 

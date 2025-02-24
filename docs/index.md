@@ -86,3 +86,14 @@
 - `<Directory>`の`Id`は、定義済みのId以外であれば、任意の値で問題ない
 - `Name`はフォルダの名前になるので、記載すること(記載がなければ、親のフォルダにソフトウエアがインストールされる)
   - 定義済みのフォルダであれば、`Name`は不要
+
+
+#### Componentタグ
+
+- WindowsInstallerは、インストールするどんなファイルでもComponentにWrappされていないといけない
+- ComponentはGUIDが必要でWindowsが追跡することができる(レジストリに登録されているので、ちゃんとUninstallができる)
+- `<Component>`の`Id`に`CMP_xxx`とCMPをつけるのはおすすめ
+- `KeyPath`を`Yes`にした`<File>`を1つは`<Component>`に書かないとだめ
+  - KeyPathがyesのファイルだけ、修復の時に置き換えられるので、Componentに複数のFileを置くことはお勧めしない(p28)
+  - すべてのファイルが修復対象であれば、Componentを分けないといけない(p28)
+

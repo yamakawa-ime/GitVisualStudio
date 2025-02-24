@@ -13,6 +13,12 @@
         <Directory Id="MyProgramDir" Name="Install Practice" />
       </Directory>
     </Directory>
+
+    <DirectoryRef Id="MyProgramDir">
+      <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}">
+            <File Id="FILE_MyProgramDir_InstallMeTXT" Source="InstallMe.txt" KeyPath="yes"/>
+          </Component>
+    </DirectoryRef>
     
   </Product>
 </Wix>

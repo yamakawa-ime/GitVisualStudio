@@ -7,5 +7,12 @@
              Manufacturer="Awesome Company" Description="Installes Awesome Software"
              Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Company"/>
     <MediaTemplate EmbedCab="yes"/>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="MyProgramDir" Name="Install Practice" />
+      </Directory>
+    </Directory>
+    
   </Product>
 </Wix>

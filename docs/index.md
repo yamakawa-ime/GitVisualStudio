@@ -37,7 +37,7 @@
 - `InstallerVersion`は`msiexec.exe`(Windowsインストーラー本体)の特定のバージョンを指定する
   - Windowsインストーラーのメジャーバージョンに100倍してマイナーバージョンを足すと指定できる
   - Windowsインストーラーが4.5の場合は、405を指定する(msiexecで検索するとWindowsインストーラーのバージョンが確認できる)
-- `InstallScope`で`perUser`をせっていすると、現在のユーザーにインストールするが、WixのPropertyの`ALLUSERS`が設定されている(？)(Propetyを説明するときに解説する)
+- `InstallScope`で`perUser`を設定すると、現在のユーザーにインストールするが、WixのPropertyの`ALLUSERS`が設定されている(？)(Propetyを説明するときに解説する)
 
 #### MediaTemplate/Mediaタグについて
 - インストールする製品ソフトウエアはCABファイルとして圧縮され、MSIに埋め込むかどうか決めることができる
@@ -83,3 +83,6 @@
 ※ MSDNでも確認できる
 
 - 必ず`<Directory>`のRootのIdは`TARGETDIR`、Nameは`SourceDir`とする必要があり、すべての`<Directory>`はこの`TARGETDIR`の子供とする
+- `<Directory>`の`Id`は、定義済みのId以外であれば、任意の値で問題ない
+- `Name`はフォルダの名前になるので、記載すること(記載がなければ、親のフォルダにソフトウエアがインストールされる)
+  - 定義済みのフォルダであれば、`Name`は不要

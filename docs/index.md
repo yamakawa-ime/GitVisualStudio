@@ -46,4 +46,35 @@
   - もし1つのファイルが最大よりも大きい場合、十分なスペースで格納できるCABファイルに格納される(？)
 - もし複数の物理ディスクでインストールする場合は、`<Media>`を利用する
  - `<Media>`のまとめは割愛する(p22を読むこと)
+
+ #### Directoryタグについて
+ ##### WindowsInstallerが定義済みのDirectoryプロパティ
+ | Directoryプロパティ | パス |
+ | :--- | :--- |
+ | AddminToolsFolder | 管理者権限ツールがあるパス |
+ | AppDataFolder | 現在のユーザーのroamingフォルダ |
+ | CommonAppDataFolder | 全ユーザーのApplication data |
+ | CommonFiles64Folder | 64bitのCommon Filesフォルダー |
+ | CommonFilesFolder | 現在のユーザーのCommon Filesフォルダー |
+ | DesktopFolder | デスクトップ |
+ | FavoritesFolder | 現在のユーザーのお気に入りフォルダ |
+ | FontsFolder | Fontsフォルダ |
+ | LocalAppDataFolder | Localフォルダ |
+ | MyPicturesFolder | Picturesフォルダ |
+ | NetHoodFolder | NetHoodフォルダ |
+ | PersonalFolder | 現在のユーザーのDocumentフォルダ |
+ | ProgramFiles64Folder | 64bitのProgramFiles |
+ | ProgramFilesFolder | 32bitのProgramFiles |
+ | ProgramMenuFolder | Program Menuフォルダ |
+ | RecentFolder | Recentフォルダ |
+ | SendToFolder | 現在のユーザーのSendToフォルダ |
+ | StartMenuFolder | StartMenuフォルダ |
+ | StartupFolder | StartUpフォルダ |
+ | System16Folder | 16bitのSystem Dllのフォルダ |
+ | System64Folder | System64 フォルダ |
+ | SystemFolder | 現在のユーザーのSystemフォルダ |
+ | TempFolder | Tempフォルダ |
+ | TemplateFolder | 現在のユーザーのTemplateフォルダ |
+ | WindowsFolder | Windowsフォルダ |
  
+※ MSDNでも確認できる

@@ -48,7 +48,9 @@
  - `<Media>`のまとめは割愛する(p22を読むこと)
 
  #### Directoryタグについて
+
  ##### WindowsInstallerが定義済みのDirectoryプロパティ
+ 
  | Directoryプロパティ | パス |
  | :--- | :--- |
  | AddminToolsFolder | 管理者権限ツールがあるパス |
@@ -76,5 +78,7 @@
  | TempFolder | Tempフォルダ |
  | TemplateFolder | 現在のユーザーのTemplateフォルダ |
  | WindowsFolder | Windowsフォルダ |
- 
+
 ※ MSDNでも確認できる
+
+- 必ず`<Directory>`のRootのIdは`TARGETDIR`、Nameは`SourceDir`とする必要がある

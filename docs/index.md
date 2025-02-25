@@ -133,3 +133,21 @@
 - `<Feature>`を入れ子にすることで、Feature Tree Dialogで階層構造をつくることができる
 - `<Feature>`の`Absent=disallo`でユーザーがDialogで除外できなくできる
 - `Description`の属性を設定できるが、これはDialogで表示されるもの
+
+#### Start menu Shortcuts
+
+- `<Shortcut>`はUniqueなIDを持ち、`Name`は表示される名前を指定、`Description`はマウスホバーをしたときに表示される
+- `Target`はユーザーのマシンで実際のファイルの場所を指定する
+  - `[MyProgramDir]`はDirectoryのIDで指定できるパスのプロパティで`\`を含んでいるので、その先のファイル名はそのまま連結して問題ない(`[MyProgramDir]InstallMe.txt`)
+- Shortcutを使う際は、`<RemoveFolder>`と`<RegistryValue>`が必要
+  - `<RemoveFolder>`はStartMenuのサブDirectoryをアンインストール時に消す
+    - `Id`はUniqueである必要がある
+    - `On`属性でいつ消すかを指定する(`install`か`uninstall`か`both`)
+    - `Directory`属性で、どのディレクトリを削除するか、そのIdで指定することができるが、ない場合は`<RemoveFolder>`の親のDirectoryかComponentGroupが自動で設定される
+  - `<RegistryValue>`はすべての`<Component>`には`Keypath`が必要なので、それを設定するために`<RegistryValue>`を利用する(`<Shortcut>`は`Keypath`が設定できない)
+    - このタグによってレジストリに登録され、Keypathも登録できる
+    - ここで設定したRegistryの値は、ほかの目的では使わない
+    - ほかの理由として、ShortCutは現在のユーザーの特定のディレクトリに生成するので、Windows Installerは複数ユーザがインストールしているときに、あるユーザーのUninstallを特定するために、RegistryKeyのKeyPathを利用する
+- UninstallのShortCutを作る際は、同様に`<Shortcut>`を利用するが、その`Target`には`System`フォルダ(64bitなら`System64Folder`)にある、`msiexec.exe`を指定する
+  - `msiexec.exe`は`\x [ProductCode]`の引数でUninstallを実行できる([ProductCode]はProductタグのIdのこと) 
+    - この時、ProductのIdをじかに書かず`[ProductCode]`のプロパティで取得すること

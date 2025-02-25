@@ -3,6 +3,7 @@
 ## Getting Started
 
 ### Visual StudioのWixExtension(Votive)の設定
+
 - Visual StudioにC#でCustomActionが作れるTemplateがある
 - VSのプロジェクトのPropertiesで警告レベルをPedantic(細部まで過度にこだわる)にすると、細かな警告・エラーまで出力される
 - Verbose output(冗長な出力)にチェックを入れると、多くの情報が得られる
@@ -11,12 +12,14 @@
 - PropertiesでCompiler(Candle.exe)やLinker(Light.exe)にコマンドラインフラグを追加することができる
 
 ### GUIDについて
+
 - GUIDはインストールするProductの参照をWindows Registryに格納するために使われる(ファイルの名前が衝突しても問題ないように)
 - VisualStdioのToolからGUIDの生成ができて、レジストリ形式のものを利用すればOK(中カッコがついていても問題ない)
 
 ### Your First Wix Project
 
 #### Productタグについて
+
 - `<Product>`に書かれている内容は、MSIファイルの右クリックの`プロパティ -> Summaryタブ`から見ることができる
   - `Version`の値以外で、この情報は次回のソフトウエアの更新以降でも同じにしておく
 - `<Product>`の`Id`は`ProductCode`と呼ばれ、WindowsがソフトウエアをUniqueとして認識する
@@ -28,6 +31,7 @@
   - Windowsは`UpgradeCode`でマシンにインストールされているソフトウエアを追いかける
 
 #### Packageタグについて
+
 - `<Packege>`で絶対必要な属性は`Compressed`で`yes`にするとMSIのリソースをCABファイルにする
 - `Id`も必要だが、省略することでWixが自動で付与してくれるので気にしない
 - `<Product>`は自分のソフトウエア(xxx.exe)について記述するが、`<Package>`はインストーラー自身(yyy.msi)を記述する野に利用する
@@ -40,6 +44,7 @@
 - `InstallScope`で`perUser`を設定すると、現在のユーザーにインストールするが、WixのPropertyの`ALLUSERS`が設定されている(？)(Propetyを説明するときに解説する)
 
 #### MediaTemplate/Mediaタグについて
+
 - インストールする製品ソフトウエアはCABファイルとして圧縮され、MSIに埋め込むかどうか決めることができる
   - `<MediaTemplate EmbedCab="yes" />`で、MSIにCABファイルを埋め込むことができる(最大200MB)
   - `MaximumUncompressedMediaSize`属性で最大サイズを変更することができる
@@ -97,3 +102,14 @@
   - KeyPathがyesのファイルだけ、修復の時に置き換えられるので、Componentに複数のFileを置くことはお勧めしない(p28)
   - すべてのファイルが修復対象であれば、Componentを分けないといけない(p28)
 
+#### Fileタグ
+
+- `<File>`のIDは`FILE_`のHeaderをつけるとわかりやすい
+  - IDはオプションなので書かなくても自動でファイル名と同じ名前でIDが割り振られる
+- `Name`属性もオプションなので、名前を意図的に書き換えるのであれば書くこと
+  - 書かなくても、`Source`と同じ名前がインストールされる
+- `KeyPath`はつける必要があるが、ファイルがなくなり、修復されるときにKeyPathがyesのファイルだけが復元される(？)
+  - `<Component>`の内側に1つの`KeyPath`が`yes`になった`File`が必要
+  - もし`KeyPath`がSetされていない場合は、自動的に先頭の`<File>`が`KeyPath=yes`に設定される
+
+ 

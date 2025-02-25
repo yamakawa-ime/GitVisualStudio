@@ -151,3 +151,60 @@
 - UninstallのShortCutを作る際は、同様に`<Shortcut>`を利用するが、その`Target`には`System`フォルダ(64bitなら`System64Folder`)にある、`msiexec.exe`を指定する
   - `msiexec.exe`は`\x [ProductCode]`の引数でUninstallを実行できる([ProductCode]はProductタグのIdのこと) 
     - この時、ProductのIdをじかに書かず`[ProductCode]`のプロパティで取得すること
+
+#### ここまでのProduct.wxs
+
+```XML
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Awesome Software"
+           Language="1033" Version="1.0.0.0" Manufacturer="Awesome Company"
+           UpgradeCode="{E30268F9-F258-4696-9A99-225AF0D7AAE1}">
+    <Package InstallerVersion="301" Compressed="yes" InstallScope="perMachine"
+             Manufacturer="Awesome Company" Description="Installes Awesome Software"
+             Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Company"/>
+    <MediaTemplate EmbedCab="yes"/>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      
+      <Directory Id="ProgramFiles64Folder">
+        <Directory Id="MyProgramDir" Name="Install Practice" />
+      </Directory>
+
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="MyShortcutsDir" Name="Awesome Software"/>
+      </Directory>
+
+    </Directory>
+    
+    <DirectoryRef Id="MyProgramDir">
+      <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}">
+        <File Source="InstallMe.txt" KeyPath="yes"/>
+        <File Name="InstallMeClone.txt" Source="InstallMe.txt"/>
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="MyShortcutsDir">
+      <Component Id="CMP_DocumentationShortcut" Guid="{8DAB1F40-851D-410B-AB61-44C2FFE99A77}">
+        <Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Software Documentation"
+                  Description="Read Awesome Software Documentation"
+                  Target="[MyProgramDir]InstallMe.txt" />
+        <Shortcut Id="UninstallShortcut" Name="Uninstall Awesome Software"
+                  Description="Uninstall Awesome Software and all of its components"
+                  Target="[System64Folder]msiexec.exe" 
+                  Arguments="/x [ProductCode]"/>
+        <RemoveFolder Id="RemoveMyShortcutsDir" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\AwesomeSoftware"
+                       Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="MainProduct" Title="YM Main Product" Level="1">
+      <ComponentRef Id="CMP_InstallMeTXT"/>
+      <ComponentRef Id="CMP_DocumentationShortcut"/>
+    </Feature>  
+
+  </Product>
+</Wix>
+```

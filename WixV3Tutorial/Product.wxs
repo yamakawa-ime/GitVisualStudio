@@ -9,21 +9,23 @@
     <MediaTemplate EmbedCab="yes"/>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
+      
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="MyProgramDir" Name="Install Practice" />
       </Directory>
-    </Directory>
 
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="MyShortcutsDir" Name="Awesome Software"/>
+      </Directory>
+
+    </Directory>
+    
     <DirectoryRef Id="MyProgramDir">
       <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}">
         <File Source="InstallMe.txt" KeyPath="yes"/>
         <File Name="InstallMeClone.txt" Source="InstallMe.txt"/>
       </Component>
     </DirectoryRef>
-    
-    <Directory Id="ProgramMenuFolder">
-      <Directory Id="MyShortcutsDir" Name="Awesome Software"/>
-    </Directory>
     
     <DirectoryRef Id="MyShortcutsDir">
       <Component Id="CMP_DocumentationShortcut" Guid="{8DAB1F40-851D-410B-AB61-44C2FFE99A77}">

@@ -112,16 +112,18 @@
   - `<Component>`の内側に1つの`KeyPath`が`yes`になった`File`が必要
   - もし`KeyPath`がSetされていない場合は、自動的に先頭の`<File>`が`KeyPath=yes`に設定される
 
- #### Featureタグ
+#### Featureタグ
 
 - `Feature`はユーザーが一度にすべてインストールするComponentのグループ
 - `Feature`はインストールするときのFeatureTreeとして表示される
  ![](images/feature_tree.png)
   - この場合は、TitleにWriteとCalcとPaintの`<Feature>`がある
+
 ```XML
 <Feature Id="FEATURE_Write" Title="Write">...</Feature>
 <Feature Id="FEATURE_Calc" Title="Calc">...</Feature>
 <Feature Id="FEATURE_Paint" Title="Paint">...</Feature>
 ```
+
 - すべてのComponentはFeatureに含まれないといけない
 - 

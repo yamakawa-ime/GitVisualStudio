@@ -9,16 +9,21 @@
     <MediaTemplate EmbedCab="yes"/>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
-      <Directory Id="ProgramFilesFolder">
+      <Directory Id="ProgramFiles64Folder">
         <Directory Id="MyProgramDir" Name="Install Practice" />
       </Directory>
     </Directory>
 
     <DirectoryRef Id="MyProgramDir">
       <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}">
-            <File Id="FILE_MyProgramDir_InstallMeTXT" Source="InstallMe.txt" KeyPath="yes"/>
-          </Component>
+        <File Source="InstallMe.txt" KeyPath="yes"/>
+        <File Name="InstallMeClone.txt" Source="InstallMe.txt"/>
+      </Component>
     </DirectoryRef>
     
+    <Feature Id="MainProduct" Title="YM Main Product" Level="1">
+      <ComponentRef Id="CMP_InstallMeTXT"/>
+    </Feature>  
+
   </Product>
 </Wix>

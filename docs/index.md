@@ -117,7 +117,7 @@
 - `Feature`はユーザーが一度にすべてインストールするComponentのグループ
 - `Feature`はインストールするときのFeatureTreeとして表示される
  ![](images/feature_tree.png)
-  - この場合は、TitleにWriteとCalcとPaintの`<Feature>`がある
+  - この場合は、`Title`にWriteとCalcとPaintの`<Feature>`がある
 
 ```XML
 <Feature Id="FEATURE_Write" Title="Write">...</Feature>
@@ -126,4 +126,10 @@
 ```
 
 - すべてのComponentはFeatureに含まれないといけない
-- 
+- 特にオプション的なファイルがなければ、1つのFeatureにすべてのComponentをまとめても問題ない
+- `<Feature>`の`Level=1`はデフォルトでインストールプロセスでそのFeatureが含まれることを示す
+  - `Level=0`の場合は、feature treeから除外され、ユーザーもFeature Tree Dialogからインストールできなくなる
+  - とにかく、特に気にしないのであれば`Level=1`にすべきかな？
+- `<Feature>`を入れ子にすることで、Feature Tree Dialogで階層構造をつくることができる
+- `<Feature>`の`Absent=disallo`でユーザーがDialogで除外できなくできる
+- `Description`の属性を設定できるが、これはDialogで表示されるもの

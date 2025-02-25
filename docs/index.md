@@ -118,3 +118,8 @@
  - `Feature`はインストールするときのFeatureTreeとして表示される
  ![](images/feature_tree.png)
    - この場合は、NameにWriteとCalcとPaintの`<Feature>`がある
+```XML
+<Feature Id="FEATURE_Write" Name="Write">...</Feature>
+<Feature Id="FEATURE_Calc" Name="Calc">...</Feature>
+<Feature Id="FEATURE_Paint" Name="Paint">...</Feature>
+```

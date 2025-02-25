@@ -114,12 +114,14 @@
 
  #### Featureタグ
 
- - `Feature`はユーザーが一度にすべてインストールするComponentのグループ
- - `Feature`はインストールするときのFeatureTreeとして表示される
+- `Feature`はユーザーが一度にすべてインストールするComponentのグループ
+- `Feature`はインストールするときのFeatureTreeとして表示される
  ![](images/feature_tree.png)
-   - この場合は、NameにWriteとCalcとPaintの`<Feature>`がある
+  - この場合は、TitleにWriteとCalcとPaintの`<Feature>`がある
 ```XML
-<Feature Id="FEATURE_Write" Name="Write">...</Feature>
-<Feature Id="FEATURE_Calc" Name="Calc">...</Feature>
-<Feature Id="FEATURE_Paint" Name="Paint">...</Feature>
+<Feature Id="FEATURE_Write" Title="Write">...</Feature>
+<Feature Id="FEATURE_Calc" Title="Calc">...</Feature>
+<Feature Id="FEATURE_Paint" Title="Paint">...</Feature>
 ```
+- すべてのComponentはFeatureに含まれないといけない
+- 

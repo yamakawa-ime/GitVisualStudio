@@ -4,7 +4,7 @@ layout: default
 
 # Wix3.6: A Developer's Guide to Windows Installer XML
 
-## Getting Started
+## 1: Getting Started
 
 ### Visual StudioのWixExtension(Votive)の設定
 
@@ -216,3 +216,25 @@ layout: default
   </Product>
 </Wix>
 ```
+
+#### UIを追加
+
+- WixのUIを追加するには`ProgramFiles(x86)\bin\WixUIExtension.dll`をプロジェクトの参照に追加する
+- `<UIRef Id="WixUI_Minimal/>`は`<Product>`の内側であればどこに配置しても問題ない 
+
+#### MSI databaseを確認する
+
+- MSIの中身を確認するためには、MSI Viewerの`Orca.exe`が必要
+  - VisualStudioをインストールしたときに、WindowsSDKも入ってるはずなので、`C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\Orca-x86_en-us.msi`があるので、このMSIからインストール
+  - 編集もできてしまうが、基本的にはXMLで編集して、中身の確認で`Orca`を利用するのがよさそう
+
+#### インストール時のログを取得
+
+- コマンドラインで、`/l*v ファイル名.txt`とする
+  - `msiexec /i xxxx.msi /l*v yamakawa_log.txt`
+- このログ出力は、インストール中に発生するすべてのイベントを記録する
+- Uninstall時も働く(`/i`を`/x`に変更するだけ)
+- もし途中でインストールが失敗した場合は、Logの`return value 3`(失敗を示す)の箇所を確認する
+- MSIのエラーコードも確認すること
+
+## 2: Creating Files and Directories

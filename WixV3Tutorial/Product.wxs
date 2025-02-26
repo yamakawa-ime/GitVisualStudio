@@ -46,7 +46,9 @@
     <Feature Id="MainProduct" Title="YM Main Product" Level="1">
       <ComponentRef Id="CMP_InstallMeTXT"/>
       <ComponentRef Id="CMP_DocumentationShortcut"/>
-    </Feature>  
+    </Feature>
 
+    <UIRef Id="WixUI_Minimal" />
+    
   </Product>
 </Wix>

@@ -105,6 +105,9 @@ layout: default
 - `KeyPath`を`Yes`にした`<File>`を1つは`<Component>`に書かないとだめ
   - KeyPathがyesのファイルだけ、修復の時に置き換えられるので、Componentに複数のFileを置くことはお勧めしない(p28)
   - すべてのファイルが修復対象であれば、Componentを分けないといけない(p28)
+  - **(注)Windows11であれば、KeyPathが入ってないFileもちゃんと復元で元に戻る**
+- **`<Component>`の中身が`File`だけなら、`<Component>`の`KeyPath=yes`でも問題なく動く**
+  - **一方、`ProgramMenuFolder`にショートカットを置く場合は、`RegistryKeyのKeyPath`が必要**
 
 #### Fileタグ
 
@@ -113,6 +116,7 @@ layout: default
 - `Name`属性もオプションなので、名前を意図的に書き換えるのであれば書くこと
   - 書かなくても、`Source`と同じ名前がインストールされる
 - `KeyPath`はつける必要があるが、ファイルがなくなり、修復されるときにKeyPathがyesのファイルだけが復元される(？)
+  - **(注)Windows11であれば、KeyPathが入ってないFileもちゃんと復元で元に戻る**
   - `<Component>`の内側に1つの`KeyPath`が`yes`になった`File`が必要
   - もし`KeyPath`がSetされていない場合は、自動的に先頭の`<File>`が`KeyPath=yes`に設定される
 

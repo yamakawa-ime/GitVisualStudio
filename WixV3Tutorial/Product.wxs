@@ -11,7 +11,7 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="MyProgramDir" Name="Install Practice" />
+        <Directory Id="MyProgramDir" Name="Awesome Software" />
       </Directory>
 
       <Directory Id="ProgramMenuFolder">
@@ -21,8 +21,8 @@
     </Directory>
     
     <DirectoryRef Id="MyProgramDir">
-      <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}">
-        <File Source="InstallMe.txt" KeyPath="yes"/>
+      <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}" KeyPath="yes">
+        <File Source="InstallMe.txt"/>
         <File Name="InstallMeClone.txt" Source="InstallMe.txt"/>
       </Component>
     </DirectoryRef>

@@ -65,7 +65,7 @@ layout: default
  | :--- | :--- |
  | AddminToolsFolder | 管理者権限ツールがあるパス |
  | AppDataFolder | 現在のユーザーのroamingフォルダ |
- | CommonAppDataFolder | 全ユーザーのApplication data |
+ | CommonAppDataFolder | 全ユーザーのApplication data (C:\ProgramData) |
  | CommonFiles64Folder | 64bitのCommon Filesフォルダー |
  | CommonFilesFolder | 現在のユーザーのCommon Filesフォルダー |
  | DesktopFolder | デスクトップ |
@@ -242,4 +242,41 @@ layout: default
 - プロジェクトのPropertiesのBuildで`Define Preprocessor variables`のところで、変数が定義でき、`$(var.変数名)`でアクセスできる
 - ほかのWixプロジェクトを参照として追加したときに、そのプロジェクトの変数にアクセスするには`$(var.ProjectName.VariableName)`でアクセスできる
 - (この本では)1つのComponentに複数のFileを加えることはBad Practiceというが、なんやかんや動くし、Repairも正常に動く@Windows11
+- `<DirectoryRef>`は`<Directory>`にIdを対応させる必要がある
+- `<ComponentGroup>`は`<Component>`をまとめて、1つの要素の参照でほかに利用できるようにする
+- `<ComponentGroupRef>`は`<ComponentRef>`をまとめることができるので、`<Fragment>`に追加するときに楽に指定できる
+  - `<ComponentGroup>`は`<File>`と`<Component>`を1対1にする場合には扱いが楽になるかも
+
+```XML
+<Feature>
+  <ComponentGroupRef Id="MyComponentGroup"/>
+</Feature>
+
+<!-- Productの内側ならどこでもOK -->
+<!-- DirectoryやDirectoryRefにComponentがなくなるが、Directory属性で指定すればOK -->
+<ComponentGroup Id="MyComponentGroup" Directory="DirectoryのID">
+  <Component ...>
+    <File ... />
+  </Component>
+  <Component ...>
+    <File ... />
+  </Component>
+</ComponentGroup>
+
+もしくは以下でもOK
+<DirectoryRef Id="DirectoryのID">
+  <Component Id="CMP_xxxx">
+    ...
+  </Component>
+  <Component Id="CMP_yyyy">
+    ...
+  </Component>
+</DirectoryRef>
+
+<ComponentGroup Id="MyCOmponentGroup">
+  <ComponentRef Id="CMP_xxxx" />
+  <ComponentRef Id="CMP_yyyy" />
+</ComponentGroup>
+```
+
 - 

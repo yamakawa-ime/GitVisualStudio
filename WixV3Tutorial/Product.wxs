@@ -8,10 +8,15 @@
              Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Company"/>
     <MediaTemplate EmbedCab="yes"/>
 
+    <!-- Directory構成 -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       
       <Directory Id="ProgramFiles64Folder">
         <Directory Id="MyProgramDir" Name="Awesome Software" />
+      </Directory>
+
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="MyProgramDir2" Name="Awesome Software2" />
       </Directory>
 
       <Directory Id="ProgramMenuFolder">
@@ -19,11 +24,18 @@
       </Directory>
 
     </Directory>
-    
+
+    <!-- DirectoryRef(中に入れるファイルComponentを定義) -->
     <DirectoryRef Id="MyProgramDir">
       <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}" KeyPath="yes">
         <File Source="$(var.FilesPath)InstallMe.txt"/>
         <File Name="InstallMeClone.txt" Source="$(var.FilesPath)InstallMe.txt"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="MyProgramDir2">
+      <Component Id="CMP_InstallMeTXT2" Guid="{38D0DEB2-60EC-4F13-BF33-6B4C09C71F32}" KeyPath="yes">
+        <File Id="InstallMe2.txt" Source="$(var.FilesPath)InstallMe.txt"/>
       </Component>
     </DirectoryRef>
     
@@ -45,6 +57,7 @@
 
     <Feature Id="MainProduct" Title="YM Main Product" Level="1">
       <ComponentRef Id="CMP_InstallMeTXT"/>
+      <ComponentRef Id="CMP_InstallMeTXT2"/>
       <ComponentRef Id="CMP_DocumentationShortcut"/>
     </Feature>
 

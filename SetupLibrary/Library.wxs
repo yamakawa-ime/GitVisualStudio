@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="MyComponentGroup" Directory="MyProgramNestDir">
+      <Component Id="CMP_MyProgramEXE" Guid="{E9DD0D76-0B06-436E-9D6D-76734B5C3F5A}">
+        <File Id="FILE_MyProgramEXE" Name="MyProgram.exe" Source="$(var.FilesPath)InstallMe.txt" KeyPath="yes" />
+      </Component>
+      <Component Id="CMP_AnotherFileDLL" Guid="{8BFFC4CC-760E-4A15-A392-41CBD3DD80F5}">
+        <File Id="FILE_AnotherFileDLL" Name="AnotherFile.dll" Source="$(var.FilesPath)InstallMe.txt" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

@@ -249,6 +249,7 @@ layout: default
 
 ```XML
 <Feature>
+  <!-- <ComponentGroup Id=...>とすると、<ComponentGroupRef>で一気にFeatureにまとめてかける -->
   <ComponentGroupRef Id="MyComponentGroup"/>
 </Feature>
 
@@ -279,4 +280,10 @@ layout: default
 </ComponentGroup>
 ```
 
-- 
+- `<Fragment>`はどのような要素でもその内側に入れれるので、ファイルを分けるのに有効
+- `<ComponentGroupRef>`で`<ComponentGroup>`内にある全ての`<Component>`を一気に`<Feature>`に参照することができる
+- `<Property>`はデータを格納するために使う変数で、`<Fragment>`の中に格納することができる
+  - `<PropertyRef>`で`<Property>`とそれにつながるすべての`<Fragment>`内の要素を参照することができる(？)
+- 1つのファイルに複数の`<Fragment>`を記述できる
+- `<Fragment>`にファイルを分ける仕組みを利用して、`.wixlib`プロジェクトを作りwixlibライブラリとしてコンパイルすることができる
+  - `.wixlib`をメインのWixプロジェクトに参照して、開発を分けることができる

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <!--<PropertyRef Id="MediaProperty"/>で<Media>3つをすべて参照できる-->
+  <Fragment>
+    <Property Id="MediaProperty" Value="1" />
+    <Media Id="11" Cabinet="media.cab" EmbedCab="yes" />
+    <Media Id="22" Cabinet="media.cab" EmbedCab="yes" />
+    <Media Id="33" Cabinet="media.cab" EmbedCab="yes" />
+  </Fragment>
+  
+</Wix>

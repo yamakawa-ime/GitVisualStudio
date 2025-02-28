@@ -8,6 +8,8 @@
              Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Company"/>
     <MediaTemplate EmbedCab="yes"/>
 
+    
+
     <!-- Directory構成 -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       
@@ -16,7 +18,9 @@
       </Directory>
 
       <Directory Id="CommonAppDataFolder">
-        <Directory Id="MyProgramDir2" Name="Awesome Software2" />
+        <Directory Id="MyProgramDir2" Name="Awesome Software2">
+          <Directory Id="MyProgramNestDir" Name="Awesome Software3" />
+        </Directory>
       </Directory>
 
       <Directory Id="ProgramMenuFolder">
@@ -59,6 +63,7 @@
       <ComponentRef Id="CMP_InstallMeTXT"/>
       <ComponentRef Id="CMP_InstallMeTXT2"/>
       <ComponentRef Id="CMP_DocumentationShortcut"/>
+      <ComponentGroupRef Id="MyComponentGroup"/>
     </Feature>
 
     <UIRef Id="WixUI_Minimal" />

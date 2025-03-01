@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="NewFilesGroup">
+            <Component Id="cmpC2767BD8E2CDB66B7B6D125DDDA8A566" Directory="TARGETDIR" Guid="{40CDB80E-219E-41F7-B55F-AD38DD944281}">
+                <File Id="filA2432FDCF1B92D06E3429B18BA4C23AD" KeyPath="yes" Source="$(var.MyDir)\InstallMe.txt" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>

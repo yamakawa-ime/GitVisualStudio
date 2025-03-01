@@ -287,3 +287,53 @@ layout: default
 - 1つのファイルに複数の`<Fragment>`を記述できる
 - `<Fragment>`にファイルを分ける仕組みを利用して、`.wixlib`プロジェクトを作りwixlibライブラリとしてコンパイルすることができる
   - `.wixlib`をメインのWixプロジェクトに参照して、開発を分けることができる
+
+### heat.exeによる`<File><Component>`の自動生成
+
+- `'C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe' dir .\install\ -out .\heat_test.wxs`で自動で`<Fragment>`が生成される
+
+出力例）
+
+```XML
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR">
+            <Directory Id="dir66789DFE0EFD750E77B25D541B4C52DB" Name="install" />
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <DirectoryRef Id="dir66789DFE0EFD750E77B25D541B4C52DB">
+            <Component Id="cmp7DE93F745A2B64B7B44B749C8202064D" Guid="PUT-GUID-HERE">
+                <File Id="fil2C375459EAA74005B18D832B8F520DEB" KeyPath="yes" Source="SourceDir\InstallMe.txt" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+</Wix>
+```
+
+- 自動で`<Fragment>`は生成されるが、`<Directory>`は元のフォルダ名になっていたり、GUIDは再度入力しないとだめだし、微調整は必要
+- `SourceDir`属性は、生成されたHeatFile.wxsファイルと同じディレクトリとなっている
+- これらの微調整をなるべく少なくするためには、Heat.exeを実行する、引数を利用する
+- `'C:\Program Files (x86)\WiX Toolset v3.14\bin\heat.exe' dir .\install\ -cg NewFilesGroup -gg -gl -sf -srd -var "var.MyDir" -out "./heat_test_2.wxs"`
+  - 引数の意味は、p58参照
+
+出力例)
+
+```XML
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Fragment>
+        <DirectoryRef Id="TARGETDIR" />
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="NewFilesGroup">
+            <Component Id="cmpC2767BD8E2CDB66B7B6D125DDDA8A566" Directory="TARGETDIR" Guid="{40CDB80E-219E-41F7-B55F-AD38DD944281}">
+                <File Id="filA2432FDCF1B92D06E3429B18BA4C23AD" KeyPath="yes" Source="$(var.MyDir)\InstallMe.txt" />
+            </Component>
+        </ComponentGroup>
+    </Fragment>
+</Wix>
+```
+
+- heat.exeを利用するときは、-ggフラグを使ってGUIDを自動生成しよう

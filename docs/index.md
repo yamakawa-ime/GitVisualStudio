@@ -337,3 +337,9 @@ layout: default
 ```
 
 - heat.exeを利用するときは、-ggフラグを使ってGUIDを自動生成しよう
+
+### Copying and moving files
+
+- `<CopyFile>`で既存のファイルをコピーできたり、インストールするファイルを別のフォルダにコピーすることができる(p61,63)
+- `<CopyFile>`の属性で、`Delete=yes`とすると、そこにあるファイルが削除され、新たに配置される(p64)
+

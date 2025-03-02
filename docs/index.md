@@ -348,3 +348,4 @@ layout: default
 - x64のフォルダにファイルを配置するには、Wixの構成プロパティで`x64`にすればよい
   - 自動で`-arch x64`が入るので、WixプロジェクトのTool SettingsのCompilerパラメータに入力しなくてもよい(最新のWix3では)
 - `<CreateFolder>`を`<Component>`の中に入れるとフォルダだけが生成される
+- ファイルのPermissionをつけることができるが、`WixUtilExtension.dll`と`xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"`をつける必要がある(詳細はp71)

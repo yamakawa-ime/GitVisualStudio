@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Id="*" Name="Awesome Software"
            Language="1033" Version="1.0.0.0" Manufacturer="Awesome Company"
            UpgradeCode="{E30268F9-F258-4696-9A99-225AF0D7AAE1}">

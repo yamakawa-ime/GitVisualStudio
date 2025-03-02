@@ -14,7 +14,9 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="MyProgramDir" Name="Awesome Software" />
+        <Directory Id="MyProgramDir" Name="Awesome Software">
+          <Directory Id="MyEmptyDir" Name="Empty Directory" />
+        </Directory>
       </Directory>
 
       <Directory Id="CommonAppDataFolder">
@@ -34,6 +36,12 @@
       <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}" KeyPath="yes">
         <File Source="$(var.FilesPath)InstallMe.txt"/>
         <File Name="InstallMeClone.txt" Source="$(var.FilesPath)InstallMe.txt"/>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="MyEmptyDir">
+      <Component Id="CMP_MyEmptyDir" Guid="{47BB97B7-64B8-4F83-8270-D3BBE93CD51C}" KeyPath="yes">
+        <CreateFolder />
       </Component>
     </DirectoryRef>
 
@@ -62,6 +70,7 @@
     <Feature Id="MainProduct" Title="YM Main Product" Level="1">
       <ComponentRef Id="CMP_InstallMeTXT"/>
       <ComponentRef Id="CMP_InstallMeTXT2"/>
+      <ComponentRef Id="CMP_MyEmptyDir"/>
       <ComponentRef Id="CMP_DocumentationShortcut"/>
       <ComponentGroupRef Id="MyComponentGroup"/>
     </Feature>

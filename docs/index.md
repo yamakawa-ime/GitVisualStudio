@@ -349,3 +349,7 @@ layout: default
   - 自動で`-arch x64`が入るので、WixプロジェクトのTool SettingsのCompilerパラメータに入力しなくてもよい(最新のWix3では)
 - `<CreateFolder>`を`<Component>`の中に入れるとフォルダだけが生成される
 - ファイルのPermissionをつけることができるが、`WixUtilExtension.dll`と`xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"`をつける必要がある(詳細はp71)
+- Installの速度を速める方法として、FileのIDをなるべく同じフォルダであれば、似たようにすると、MSIのデータベースで並び替えの時に順序が整列される
+  - ex) Aフォルダに入れるファイルが、X.txtとY.txtとすると、IDをId="FILE_A_X_TXT", Id="FILE_B_Y_TXT"とすると、WixのDBが順番に並べるので、早くなる(単語を区別するのに、_(アンダーバー)を使ってもいいし、.(ピリオド)も使ってもいい)
+
+  ## 3: Putting Properties and AppSearch to Work

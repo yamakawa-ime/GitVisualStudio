@@ -78,5 +78,13 @@
 
     <UIRef Id="WixUI_Minimal" />
     
+  
+    <Property Id="myProperty" Value="0" />
+    <Condition Message="Value of myProperty is [myProperty]. Shold be 1">
+      <![CDATA[Installed OR myProperty = "1"]]>
+    </Condition>
+    
+
+
   </Product>
 </Wix>

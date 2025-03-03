@@ -352,4 +352,41 @@ layout: default
 - Installの速度を速める方法として、FileのIDをなるべく同じフォルダであれば、似たようにすると、MSIのデータベースで並び替えの時に順序が整列される
   - ex) Aフォルダに入れるファイルが、X.txtとY.txtとすると、IDをId="FILE_A_X_TXT", Id="FILE_B_Y_TXT"とすると、WixのDBが順番に並べるので、早くなる(単語を区別するのに、_(アンダーバー)を使ってもいいし、.(ピリオド)も使ってもいい)
 
-  ## 3: Putting Properties and AppSearch to Work
+## 3: Putting Properties and AppSearch to Work
+
+- Propertyはインストールの際の一時データを格納できる変数
+- `<Property>`は`<Product>`の内側であれば、どこでも書ける
+  - Id、Value共にどのような文字でもOK、Valueを省略したらnullが入るが、nullだとコンパイル時にそのPropertyの存在が無視される
+- `<Property>`の書き方は下記2通り可能
+  - `<Property Id="MyProperty" Value="test" />`
+  - `<Property Id="MyProperty">test</Property>`
+- コマンドラインで、Propertyを宣言できるが、その際はすべて大文字でないといけない。大文字のプロパティは「Public」として扱われる
+  - `msiexec /i myInstaller.msi PROPERTY="aaaa"`
+- Propertyを参照できるWixの要素は以下のみ
+  - `Control`: Text属性だけ参照できる
+  - `ListItem`: Text属性だけ参照できる
+  - `Dialog`: Title属性だけ参照できる
+  - `Shortcut`: TargetとArgument, Description属性だけ参照できる
+  - `Condition`: Message属性だけ参照できる
+  - `RegistryValue`: NameとValue属性だけ参照できる
+- Propertyを参照する際は、`[PropertyのId]`でアクセスできる
+  - innerTextでプロパティを参照する場合は、鍵括弧[]は不要
+```XML
+<Property Id="myProperty" Value="0" />
+<Condition Message="Value of myProperty is [myProperty]. Shold be 1">
+  <![CDATA[Installed OR myProperty = "1"]]>
+</Condition>
+```
+
+- この場合のInnerTextのPropertyの参照は鍵括弧[]は不要
+- `Installed`はBuiltInのプロパティで、Productがすでにインストールされてるかどうか判定する 
+- CDATAセクションを使えば、 < や & などのエスケープを省くことができる(`<![CDATA[ ... ]]>`で記述する)
+- `<Fragment>`に`<Property>`を宣言して、それを`Product.wsx`で利用したい場合は、`<PropertyRef>`を利用する
+- パスワードなどをPropertyに格納した場合は、log出力すると見えてしまうので、Propertyの`Hidden`属性で隠すことができる
+  - MSIのDatabaseでは隠すことはできない
+  - 代わりにUIを使ってユーザーに入力してもらったり、コマンドラインでパスワードを入力してもらうと、そのパスワードがDatabaseに残ることはない
+- デフォルトのPropertyはPublicではないので、実行フェーズでPropertyを扱うにはPublicにする必要がある
+  - PropertyをPublicにするには、Idをすべて大文字にする必要がある
+  - `MY_PASSWARD`はPublic、`my_Passward`はPrivate
+  - ダイアログからのユーザーの情報を集めて、それを実行フェーズで何かのアクションのために使いたいときには、PropertyはPublicでなければいけない(ユーザーの情報をレジストリに格納したい時など)
+  - Privateプロパティは現在のセッションの間しか存続しない

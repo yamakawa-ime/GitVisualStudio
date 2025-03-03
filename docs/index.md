@@ -371,6 +371,7 @@ layout: default
   - `RegistryValue`: NameとValue属性だけ参照できる
 - Propertyを参照する際は、`[PropertyのId]`でアクセスできる
   - innerTextでプロパティを参照する場合は、鍵括弧[]は不要
+
 ```XML
 <Property Id="myProperty" Value="0" />
 <Condition Message="Value of myProperty is [myProperty]. Shold be 1">

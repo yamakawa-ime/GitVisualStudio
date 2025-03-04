@@ -377,6 +377,12 @@ layout: default
 <Condition Message="Value of myProperty is [myProperty]. Shold be 1">
   <![CDATA[Installed OR myProperty = "1"]]>
 </Condition>
+
+<!-- ConditionはMSI起動時にチェックされて、Falseの時に表示されて、インストールが中断される -->
+<PRoperty Id="MyProperty" Value="5">
+<Condition Message="Some Message if condition is false">
+  <![CDATA[MyProperty > 3]]>
+</Condition>
 ```
 
 - この場合のInnerTextのPropertyの参照は鍵括弧[]は不要
@@ -391,3 +397,35 @@ layout: default
   - `MY_PASSWARD`はPublic、`my_Passward`はPrivate
   - ダイアログからのユーザーの情報を集めて、それを実行フェーズで何かのアクションのために使いたいときには、PropertyはPublicでなければいけない(ユーザーの情報をレジストリに格納したい時など)
   - Privateプロパティは現在のセッションの間しか存続しない
+- Propertyの値はWixがよろしく型を解釈してくれるが、小数点は数字として解釈されないので注意
+  - その場合は、`""`を入れると、Stringの比較になって、小数点も比較できる
+
+```XML
+<Property Id="MyNum" Value="2.0" />
+<!-- 2.0は1より大きいのに、False扱いになってメッセージが表示される -->
+<Condition Message="MyNum must be > 1">
+  <![CDATA[MyNum > 1]]>
+</Condition>
+
+<!-- ""を入れると、比較できるので、True扱いになってメッセージが表示されない -->
+<Condition Message="MyNum must be > 1">
+  <![CDATA[MyNum > "1"]]>
+</Condition>
+
+<!-- 大文字小文字を無視して、Stringを比較する場合は、～をつける -->
+<Property Id="MyString" Value="sample string" />
+<Condition Message="message if false">
+  <![CDATA[MyString ~="SAMPLE STRING"]]>
+</Condition>
+
+<!-- プロパティ自身が定義されているかどうか確認する -->
+<Condition Message="message if false">
+  <![CDATA[MY_PROPERTY]]>
+</Condition>
+
+<!-- NOTを入れると、否定ができる(Installedは定義済みプロパティ(インストールされているかどうか)) -->
+<!-- これ危険！インストールしちゃうと、アンインストールできなくなった！！ -->
+<Condition Message="Installed">
+  <![CDATA[NOT Installed]]>
+</Condition>
+```

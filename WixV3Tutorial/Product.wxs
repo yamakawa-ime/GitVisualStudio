@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Product Id="*" Name="Awesome Software"
-           Language="1033" Version="1.0.0.0" Manufacturer="Awesome Company"
+  <Product Id="*" Name="Awesome Awesome Software"
+           Language="1033" Version="1.0.0.0" Manufacturer="Awesome Awesome Company"
            UpgradeCode="{E30268F9-F258-4696-9A99-225AF0D7AAE1}">
     <Package InstallerVersion="301" Compressed="yes" InstallScope="perMachine"
-             Manufacturer="Awesome Company" Description="Installes Awesome Software"
-             Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Company"/>
+             Manufacturer="Awesome Awesome Company" Description="Installes Awesome Awesome Software"
+             Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Awesome Company"/>
     <MediaTemplate EmbedCab="yes"/>
 
     
@@ -15,19 +15,19 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="MyProgramDir" Name="Awesome Software">
+        <Directory Id="MyProgramDir" Name="Awesome Awesome Software">
           <Directory Id="MyEmptyDir" Name="Empty Directory" />
         </Directory>
       </Directory>
 
       <Directory Id="CommonAppDataFolder">
-        <Directory Id="MyProgramDir2" Name="Awesome Software2">
-          <Directory Id="MyProgramNestDir" Name="Awesome Software3" />
+        <Directory Id="MyProgramDir2" Name="Awesome Awesome Software2">
+          <Directory Id="MyProgramNestDir" Name="Awesome Awesome Software3" />
         </Directory>
       </Directory>
 
       <Directory Id="ProgramMenuFolder">
-        <Directory Id="MyShortcutsDir" Name="Awesome Software"/>
+        <Directory Id="MyShortcutsDir" Name="Awesome Awesome Software"/>
       </Directory>
 
     </Directory>
@@ -54,11 +54,11 @@
     
     <DirectoryRef Id="MyShortcutsDir">
       <Component Id="CMP_DocumentationShortcut" Guid="{8DAB1F40-851D-410B-AB61-44C2FFE99A77}">
-        <Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Software Documentation"
-                  Description="Read Awesome Software Documentation"
+        <Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Awesome Software Documentation"
+                  Description="Read Awesome Awesome Software Documentation"
                   Target="[MyProgramDir]InstallMe.txt" />
-        <Shortcut Id="UninstallShortcut" Name="Uninstall Awesome Software"
-                  Description="Uninstall Awesome Software and all of its components"
+        <Shortcut Id="UninstallShortcut" Name="Uninstall Awesome Awesome Software"
+                  Description="Uninstall Awesome Awesome Software and all of its components"
                   Target="[System64Folder]msiexec.exe" 
                   Arguments="/x [ProductCode]"/>
         <RemoveFolder Id="RemoveMyShortcutsDir" On="uninstall"/>
@@ -79,11 +79,16 @@
     <UIRef Id="WixUI_Minimal" />
     
   
-    <Property Id="myProperty" Value="0" />
+    <!--<Property Id="myProperty" Value="0" />
     <Condition Message="Value of myProperty is [myProperty]. Shold be 1">
       <![CDATA[Installed OR myProperty = "1"]]>
-    </Condition>
-    
+    </Condition>-->
+
+    <!--<Property Id="MyProperty" Value="5" />
+    <Condition Message="Some message if condition is false">
+      <![CDATA[MyProperty > 3]]>
+    </Condition>-->
+
 
 
   </Product>

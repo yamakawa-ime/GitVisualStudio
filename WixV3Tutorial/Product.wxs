@@ -3,7 +3,7 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Id="*" Name="Awesome Awesome Software"
            Language="1033" Version="1.0.0.0" Manufacturer="Awesome Awesome Company"
-           UpgradeCode="{E30268F9-F258-4696-9A99-225AF0D7AAE1}">
+           UpgradeCode="{E32A2143-B962-411B-ACB1-737EE1E73E55}">
     <Package InstallerVersion="301" Compressed="yes" InstallScope="perMachine"
              Manufacturer="Awesome Awesome Company" Description="Installes Awesome Awesome Software"
              Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Awesome Company"/>
@@ -77,19 +77,6 @@
     </Feature>
 
     <UIRef Id="WixUI_Minimal" />
-    
-  
-    <!--<Property Id="myProperty" Value="0" />
-    <Condition Message="Value of myProperty is [myProperty]. Shold be 1">
-      <![CDATA[Installed OR myProperty = "1"]]>
-    </Condition>-->
-
-    <!--<Property Id="MyProperty" Value="5" />
-    <Condition Message="Some message if condition is false">
-      <![CDATA[MyProperty > 3]]>
-    </Condition>-->
-
-
 
   </Product>
 </Wix>

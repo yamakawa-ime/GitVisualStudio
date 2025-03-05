@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <Product Id="*" Name="Awesome Awesome Software"
-           Language="1033" Version="1.0.0.0" Manufacturer="Awesome Awesome Company"
+           Language="1033" Version="1.1.0.0" Manufacturer="Awesome Awesome Company"
            UpgradeCode="{E32A2143-B962-411B-ACB1-737EE1E73E55}">
     <Package InstallerVersion="301" Compressed="yes" InstallScope="perMachine"
              Manufacturer="Awesome Awesome Company" Description="Installes Awesome Awesome Software"

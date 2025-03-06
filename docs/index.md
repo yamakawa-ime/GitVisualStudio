@@ -442,3 +442,10 @@ layout: default
   - Directories系も暗黙的なプロパティ(`ProgramFiles64Folder`など)
   - 自身で定義したDirectoryもPropertyとしてアクセスできる(Idでアクセス)
     - `<Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Yamakawa Software Documentation" Description="Read Awesome Yamakawa Software Documentation" Target="[MyProgramDir]InstallMe.txt" />`の`[MyProgramDir]`
+- 明示的に定義が必要な、WindowsInstallerのBuilt-Inプロパティ
+  - `ARPXXXXX(Add/Remove Programs)`は、「プログラムの追加と削除(プログラムと機能)」の時に表示される追加的な情報、Windows8以下で利用するものなので不要じゃないかと思う(p88)
+  - `ALLUSER`という既定のプロパティがあるが、これはPackageで決められるので、知っておくだけにする
+    - `1`はperMachine
+    - `""`(空欄)はperUser
+    - `2`はOSによって異なるので使わない(非推奨)
+

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Awesome Software"
+  <Product Id="*" Name="Awesome Yamakawa Software"
            Language="1033" Version="1.0.0.0" Manufacturer="Awesome Yamakawa Company"
            UpgradeCode="{C014D520-8EAB-4F25-BCE5-850D24B20440}">
     <Package InstallerVersion="301" Compressed="yes" InstallScope="perMachine"

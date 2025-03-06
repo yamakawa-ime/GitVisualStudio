@@ -26,9 +26,9 @@
         </Directory>
       </Directory>
 
-      <!--<Directory Id="ProgramMenuFolder">
+      <Directory Id="ProgramMenuFolder">
         <Directory Id="MyShortcutsDir" Name="Awesome Awesome Software"/>
-      </Directory>-->
+      </Directory>
 
     </Directory>
 
@@ -52,7 +52,7 @@
       </Component>
     </DirectoryRef>
     
-    <!--<DirectoryRef Id="MyShortcutsDir">
+    <DirectoryRef Id="MyShortcutsDir">
       <Component Id="CMP_DocumentationShortcut" Guid="{8DAB1F40-851D-410B-AB61-44C2FFE99A77}">
         <Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Awesome Software Documentation"
                   Description="Read Awesome Awesome Software Documentation"
@@ -61,18 +61,18 @@
                   Description="Uninstall Awesome Awesome Software and all of its components"
                   Target="[System64Folder]msiexec.exe" 
                   Arguments="/x [ProductCode]"/>
-        <RemoveFolder Id="MyShortcutsDir" On="uninstall"/>
+        <RemoveFolder Id="RemoveMyShortcutsDir" On="uninstall"/>
         <RegistryValue Root="HKCU" Key="Software\Microsoft\AwesomeAwesomeSoftware"
                        Name="installed" Type="integer" Value="1" KeyPath="yes" />
       
       </Component>
-    </DirectoryRef>-->
+    </DirectoryRef>
 
     <Feature Id="MainProduct" Title="YM Main Product" Level="1">
       <ComponentRef Id="CMP_InstallMeTXT"/>
       <ComponentRef Id="CMP_InstallMeTXT2"/>
       <ComponentRef Id="CMP_MyEmptyDir"/>
-      <!--<ComponentRef Id="CMP_DocumentationShortcut"/>-->
+      <ComponentRef Id="CMP_DocumentationShortcut"/>
       <ComponentGroupRef Id="MyComponentGroup"/>
     </Feature>
 

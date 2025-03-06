@@ -1,68 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <Product Id="*" Name="Awesome Awesome Software"
-           Language="1033" Version="1.1.0.0" Manufacturer="Awesome Awesome Company"
-           UpgradeCode="{E32A2143-B962-411B-ACB1-737EE1E73E55}">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Awesome Software"
+           Language="1033" Version="1.0.0.0" Manufacturer="Awesome Yamakawa Company"
+           UpgradeCode="{C014D520-8EAB-4F25-BCE5-850D24B20440}">
     <Package InstallerVersion="301" Compressed="yes" InstallScope="perMachine"
-             Manufacturer="Awesome Awesome Company" Description="Installes Awesome Awesome Software"
-             Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Awesome Company"/>
+             Manufacturer="Awesome Yamakawa Company" Description="Installes Awesome Yamakawa Software"
+             Keywords="Practie, Installer, MSI" Comments="(c)2012 Awesome Yamakawa Company"/>
     <MediaTemplate EmbedCab="yes"/>
 
-    
-
-    <!-- Directory構成 -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       
       <Directory Id="ProgramFiles64Folder">
-        <Directory Id="MyProgramDir" Name="Awesome Awesome Software">
-          <Directory Id="MyEmptyDir" Name="Empty Directory" />
-        </Directory>
-      </Directory>
-
-      <Directory Id="CommonAppDataFolder">
-        <Directory Id="MyProgramDir2" Name="Awesome Awesome Software2">
-          <Directory Id="MyProgramNestDir" Name="Awesome Awesome Software3" />
-        </Directory>
+        <Directory Id="MyProgramDir" Name="A Yamakawa Install Practice" />
       </Directory>
 
       <Directory Id="ProgramMenuFolder">
-        <Directory Id="MyShortcutsDir" Name="Awesome Awesome Software"/>
+        <Directory Id="MyShortcutsDir" Name="Awesome Yamakawa Software"/>
       </Directory>
 
     </Directory>
-
-    <!-- DirectoryRef(中に入れるファイルComponentを定義) -->
+    
     <DirectoryRef Id="MyProgramDir">
-      <Component Id="CMP_InstallMeTXT" Guid="{33055D38-14BB-45B0-A138-6A94A60E6E85}" KeyPath="yes">
-        <File Source="$(var.FilesPath)InstallMe.txt"/>
-        <File Name="InstallMeClone.txt" Source="$(var.FilesPath)InstallMe.txt"/>
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="MyEmptyDir">
-      <Component Id="CMP_MyEmptyDir" Guid="{47BB97B7-64B8-4F83-8270-D3BBE93CD51C}" KeyPath="yes">
-        <CreateFolder />
-      </Component>
-    </DirectoryRef>
-
-    <DirectoryRef Id="MyProgramDir2">
-      <Component Id="CMP_InstallMeTXT2" Guid="{38D0DEB2-60EC-4F13-BF33-6B4C09C71F32}" KeyPath="yes">
-        <File Id="InstallMe2.txt" Source="$(var.FilesPath)InstallMe.txt"/>
+      <Component Id="CMP_InstallMeTXT" Guid="{C25CB896-88A5-45D1-8570-A32CB127B4D9}">
+        <File Source="..\install\InstallMe.txt" KeyPath="yes"/>
+        <File Name="InstallMeClone.txt" Source="..\install\InstallMe.txt"/>
       </Component>
     </DirectoryRef>
     
     <DirectoryRef Id="MyShortcutsDir">
-      <Component Id="CMP_DocumentationShortcut" Guid="{8DAB1F40-851D-410B-AB61-44C2FFE99A77}">
-        <Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Awesome Software Documentation"
-                  Description="Read Awesome Awesome Software Documentation"
+      <Component Id="CMP_DocumentationShortcut" Guid="{80B56CEF-F988-489F-A3B7-258AB650E093}">
+        <Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Yamakawa Software Documentation"
+                  Description="Read Awesome Yamakawa Software Documentation"
                   Target="[MyProgramDir]InstallMe.txt" />
-        <Shortcut Id="UninstallShortcut" Name="Uninstall Awesome Awesome Software"
-                  Description="Uninstall Awesome Awesome Software and all of its components"
+        <Shortcut Id="UninstallShortcut" Name="Uninstall Awesome Yamakawa Software"
+                  Description="Uninstall Awesome Yamakawa Software and all of its components"
                   Target="[System64Folder]msiexec.exe" 
                   Arguments="/x [ProductCode]"/>
         <RemoveFolder Id="RemoveMyShortcutsDir" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\Microsoft\AwesomeAwesomeSoftware"
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\AwesomeYamakawaSoftware"
                        Name="installed" Type="integer" Value="1" KeyPath="yes" />
       
       </Component>
@@ -70,13 +45,8 @@
 
     <Feature Id="MainProduct" Title="YM Main Product" Level="1">
       <ComponentRef Id="CMP_InstallMeTXT"/>
-      <ComponentRef Id="CMP_InstallMeTXT2"/>
-      <ComponentRef Id="CMP_MyEmptyDir"/>
       <ComponentRef Id="CMP_DocumentationShortcut"/>
-      <ComponentGroupRef Id="MyComponentGroup"/>
-    </Feature>
-
-    <UIRef Id="WixUI_Minimal" />
+    </Feature>  
 
   </Product>
 </Wix>

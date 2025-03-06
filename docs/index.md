@@ -429,3 +429,16 @@ layout: default
   <![CDATA[NOT Installed]]>
 </Condition>
 ```
+
+- 定義済みプロパティ
+  - Productタグが定義されたときに、暗黙的なプロパティ
+    - `ProductCode` = ProductのId
+    - `ProductName` = ProductのName
+    - `ProductLanguage` = ProductのLanguage
+    - `ProductVersion` = ProductのVersion
+    - `Manufacture` = ProductのManufacture
+    - `UpgradeCode` = ProductのUpgradeCode
+  - `[ProductCode]`などでアクセス可能
+  - Directories系も暗黙的なプロパティ(`ProgramFiles64Folder`など)
+  - 自身で定義したDirectoryもPropertyとしてアクセスできる(Idでアクセス)
+    - `<Shortcut Id="DocumentationStartMenuShortcut" Name="Awesome Yamakawa Software Documentation" Description="Read Awesome Yamakawa Software Documentation" Target="[MyProgramDir]InstallMe.txt" />`の`[MyProgramDir]`

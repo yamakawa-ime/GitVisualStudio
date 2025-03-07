@@ -448,4 +448,31 @@ layout: default
     - `1`はperMachine
     - `""`(空欄)はperUser
     - `2`はOSによって異なるので使わない(非推奨)
+- Directoryの検索が可能
 
+```XML
+<Property Id="NPP_PATH">
+  <DirectorySearch Path="C:\Program Files (x86)\Notepad++" Depth="0" AssignToProperty="yes" Id="NppFolderSearch" />
+</Property>
+```
+
+- もしDirectoryが発見できれば、そのパスの値が、PropertyのValueとして代入される、見つからなければnull
+- `AssignToProperty`でPropertyにSetするかどうか決める
+- 検索するパスは、絶対パスを指定する
+- `Depth`でどれぐらいSubFolderまで見るか設定できる
+- `Path`を絶対パスにしないのであれば、Rootパス(CドライブやDドライブから、Depth分だけ探しに行く)
+- `<DirectorySearch>`をネスとすることで、もう少し柔軟な相対パスで検索できる(p92)
+- `DirectorySearch`の子供に`FileSearch`を入れるとファイルSearchができる
+
+```XML
+<Property Id="README_FILE">
+  <DirectorySearch Path="C:\Program Files (x86)\Notepad++" Depth="0" AssignToProperty="no" Id="NppFolderSearch">
+    <FileSearch Name="readme.txt" Id="readmeFileSearch" />
+  </DirectorySearch>
+</Property>
+```
+
+- ファイルが見つかれば、プロパティのValueとして、フルパスが格納される
+- 注）不意に、`Path=" C:\Progra...."`と、スペースを間違って入れないでください。ファイルは見つからないし、不具合がどこかわからず苦労します
+- File検索は、Subフォルダの再帰的な検索はできないので、適切なパスを指定して、`FileSeach`をすること
+- 

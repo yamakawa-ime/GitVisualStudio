@@ -475,4 +475,22 @@ layout: default
 - ファイルが見つかれば、プロパティのValueとして、フルパスが格納される
 - 注）不意に、`Path=" C:\Progra...."`と、スペースを間違って入れないでください。ファイルは見つからないし、不具合がどこかわからず苦労します
 - File検索は、Subフォルダの再帰的な検索はできないので、適切なパスを指定して、`FileSeach`をすること
-- 
+- `FileSearch`以外に、`ComponentSearch`でもファイルを探すことができる
+  - `ComponentSearch`では、GUIDを使って、Keyパスが設定されているFileを検索する
+- `RegistrySearch`でレジストリを検索できる
+  - 見つかれば、そのレジストリの値が`<Property>`のValueに格納される
+  - `RegistrySearch`で検索したレジストリの値が、ファイルパスで、そのパスにファイルがあるかどうか確認するときは、`FileSearch`も組み合わせればOK
+
+```XML
+<Property Id="MY_PROPERTY">
+  <RegistrySearch Id="myRegSearch" Root="HKLM" Key="SOFTWARE\WIXTEST" Name="PathToFile" Type="file">
+    <FileSearch Id="myFileSearch" Name="[MY_PROPERTY]" />
+  </RegistrySearch>
+</Property>
+```
+
+- プロパティのアクセスについて、基本的には`[XXX]`でアクセスだが、XMLのInnerTextでアクセスする場合は、`[]`は不要
+
+## 4: Improving Control with Launch Conditions and Installed States
+
+

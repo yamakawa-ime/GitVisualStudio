@@ -493,4 +493,18 @@ layout: default
 
 ## 4: Improving Control with Launch Conditions and Installed States
 
+- Launch Conditionはインストールの初回で判定する事前条件で、不適合であればインストールが進まない
+- Feature ConditionやComponent Conditionはそれぞれ`<Feature>`や`<Component>`の子供として記述でき、条件に不適合であれば、そのFeatureやComponentがインストールされない
+- Launch Conditionは`<Product>`の間に入れたら判定されて、MSIのDBには、`LaunchCOndition`として記述される
+- Launch Conditionは、.NETのインストール状況をチェックしたり、管理者権限や、OSのバージョンなど、インストール以前の事前条件を判定できる
+  - 条件が不適合であれば、インストールが進まない(falseの場合)
+  - .NETのインストールの判断は、`WixNetFxExtension.dll`を追加する必要がある
+    - .NETがインストールされているか判断するプロパティの一覧は、p110を見ること
+    - .NETがインストールされているか判断するプロパティを利用する際は、`<PropertyRef>`で参照する必要がある。なぜなら、dll側で`<Fragment>`として定義されているので、明示的に参照する必要がある
+- PpwerShellのバージョンを取るには、`WixPSExtension.dll`を参照して、`POWERSHELLVERSION`プロパティを利用する
+- WindowsOSのバージョンを確認するには、`VersionNT`もしくは、64bitなら`VersionNT64`プロパティを利用すればよい。各Windowsのバージョンの値は、p111を参照
+-  OSのServicePackのレベルを判定する場合は、`ServicePackLevel`を参照する
+- 環境変数にアクセスする場合は、`%`をつけてアクセスする
+- `<Fragment>`に`<Condition>`を記述するには、`<Property>`を別途定義する必要があり、`<Product>`側には、`<PropertyRef>`でそのPropertyを参照する
+- 
 

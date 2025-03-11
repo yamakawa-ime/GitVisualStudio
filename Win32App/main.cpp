@@ -31,28 +31,21 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 ATOM InitApp(HINSTANCE hInst)
 {
     WNDCLASSEX wc;
-    wc.cbSize = sizeof(WNDCLASSEX);           // 構造体のサイズ
-    wc.style = CS_HREDRAW | CS_VREDRAW;       // クラスのスタイル
-    wc.lpfnWndProc = WndProc;                 // プロシージャ名
-    wc.cbClsExtra = 0;                        // 補助メモリ
-    wc.cbWndExtra = 0;                        // 補助メモリ
-    wc.hInstance = hInst;                     // インスタンス
-    wc.hIcon = (HICON)LoadImage(              // アイコン
-                                NULL, MAKEINTRESOURCE(IDI_APPLICATION),
-                                IMAGE_ICON, 0, 0,
-                                LR_DEFAULTSIZE | LR_SHARED);
-    wc.hCursor = (HCURSOR)LoadImage(          // カーソル
-                                    NULL, MAKEINTRESOURCE(IDC_ARROW),
-                                    IMAGE_CURSOR, 0, 0,
-                                    LR_DEFAULTSIZE | LR_SHARED);
-    wc.hbrBackground =                        // 背景ブラシ
-        (HBRUSH)GetStockObject(WHITE_BRUSH);
-    wc.lpszMenuName = NULL;                   // メニュー名
-    wc.lpszClassName = szClassName;           // クラス名
-    wc.hIconSm = (HICON)LoadImage(            // 小さいアイコン
-                                  NULL, MAKEINTRESOURCE(IDI_APPLICATION),
-                                  IMAGE_ICON, 0, 0,
-                                  LR_DEFAULTSIZE | LR_SHARED);
+    wc.cbSize = sizeof(WNDCLASSEX); 
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
+    wc.lpfnWndProc = WndProc;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.hInstance = hInst;
+    wc.hIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(IDI_APPLICATION), IMAGE_ICON, 
+                                0, 0, LR_DEFAULTSIZE | LR_SHARED);
+    wc.hCursor = (HCURSOR)LoadImage(NULL, MAKEINTRESOURCE(IDC_ARROW), IMAGE_CURSOR, 
+                                    0, 0, LR_DEFAULTSIZE | LR_SHARED);
+    wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+    wc.lpszMenuName = NULL;
+    wc.lpszClassName = szClassName;
+    wc.hIconSm = (HICON)LoadImage(NULL, MAKEINTRESOURCE(IDI_APPLICATION), IMAGE_ICON, 
+                                  0, 0, LR_DEFAULTSIZE | LR_SHARED);
 
     return (RegisterClassEx(&wc));
 }
@@ -62,23 +55,14 @@ BOOL InitInstance(HINSTANCE hInst, int nCmdShow)
 {
     HWND hWnd;
 
-    hWnd = CreateWindow(szClassName, // クラス名
-                        TEXT("猫でもわかるWindowsプログラミング"),
-                        // ウィンドウ名
-                        WS_OVERLAPPEDWINDOW,     // ウィンドウスタイル
-                        CW_USEDEFAULT,           // x位置
-                        CW_USEDEFAULT,           // y位置
-                        CW_USEDEFAULT,           // ウィンドウ幅
-                        CW_USEDEFAULT,           // ウィンドウ高さ
-                        NULL,  // 親ウィンドウのハンドル、親を作るときはNULL
-                        NULL,  // メニューハンドル、クラスメニューを使うときはNULL
-                        hInst, // インスタンスハンドル
-                        NULL   // ウィンドウ作成データ
-    );
+    hWnd = CreateWindow(
+        szClassName, TEXT("猫でもわかるWindowsプログラミング"), 
+        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 
+        CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, hInst, NULL);
     if (!hWnd)
         return FALSE;
-    ShowWindow(hWnd, nCmdShow);  // ウィンドウの表示状態を設定
-    UpdateWindow(hWnd);          // ウィンドウを更新
+    ShowWindow(hWnd, nCmdShow);
+    UpdateWindow(hWnd);
     return TRUE;
 }
 

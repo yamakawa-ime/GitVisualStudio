@@ -506,5 +506,36 @@ layout: default
 -  OSのServicePackのレベルを判定する場合は、`ServicePackLevel`を参照する
 - 環境変数にアクセスする場合は、`%`をつけてアクセスする
 - `<Fragment>`に`<Condition>`を記述するには、`<Property>`を別途定義する必要があり、`<Product>`側には、`<PropertyRef>`でそのPropertyを参照する
-- 
+- Feature Conditionは`<Feature>`の内側に`<Condition>`を入れ、条件がTrueの場合にFeatureがインストールされている
+  - UIでユーザーがインストールするFeatureをOFFにしたときに、FeatureConditionがFalseになり、インストールしないように制御できる
+
+```XML
+<Feature ... Level="1">
+  <ComponentRef Id="xxxx" />
+  <Condition Level="0">
+    <![CDATA[MyProperty = "some value"]]>
+  </Condition>
+</Feature>
+```
+
+- このように、`MyProperty`がsome valueではなかったとき(false)、Levelが0に更新されて、このFeatureがインストールされなくなる
+- feature conditionは、FileCostのアクションの間に評価される
+- Levelを`INSTALLLEVEL`プロパティ(デフォルトは1)より高くすると、除外されずに非アクティブ状態になる
+- `INSTALLLEVEL`は重要なプロパティでどのFeatureもこのプロパティと比較される。INSTALLLEVELと同じか0でなく小さい値であれば、Featureはアクティブ状態になる
+- インストーラーで、「推奨」(Typical Install)や「完全インストール」(Full Install)というのがあれば、その選択で`INSTALLLEVEL`が100(Full)もしくは50(Typical)に設定されて、その値以下のFeatureがインストールされるようになっている
+- Component ConditionはFeature Conditionととても似ているが、Componentのインストールの可否を決める
+- `<Component>`の内側に`<Condition>`を入れるが、Levelの設定は不要
+
+```XML
+<Property Id="MyProperty" Value="1" />
+
+<Component ....>
+  <File ....>
+  <Condition>MyProperty = 1</Condition>
+</Component>
+```
+
+- この設定であれば、MyProperty=1の場合、ComponentがInstallされる
+- Comoponent ConditionはFileやRegistryKeyやDirectoryなど個別に条件を設定できる
+- Component Conditionは初回のインストールしか判断しないので、再インストールでも条件を再評価するには、`<Component>`に`Transitive="true"`が必要(p118)
 

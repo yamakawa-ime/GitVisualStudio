@@ -85,5 +85,45 @@ MSBuild のバージョン 17.12.12+1cce77968 (.NET Framework)
   Building Custom Rule C:/YM_ProgramData/Development/GitVisualStudio/CMake/CMakeLists.txt
 ```
 
+- CMakeは5つのToolのセット
+  - `cmake` : プロジェクトを設定したり、生成したりビルドをするメインの実行モジュール
+  - `ctest` : テストを実行したり、テスト結果を報告したりするテストドライバー
+  - `cpack` : インストーラーやソースパッケージを作ったりするパッケージングモジュール
+  - `cmake-gui` : `cmake`周辺をラップするGUIツール
+  - `ccmake` : `cmake`周辺をラップするコンソールベースのGUIツール
 
+### CMakeのコマンドライン
+
+- プロジェクトのビルドシステムの生成
+  - プロジェクトをビルドするために必要な初めのステップは、ビルドシステムを作ること
+  - ビルドシステムを作る方法は以下の3通りがある
+
+```shell
+// ソースとビルド結果ファイルを分けられるのでこれがオススメ
+cmake [<options>] -S <source tree> -B <build tree>
+```
+
+- 本当は、対応したBuild Systemを作るために、ビルドツール(VisualStudioやXcodeやMakefile)を選ぶ必要があるが、通常は幸運なことに気にかける必要がない(CMakeが自動で選んでくれる)
+- 指定するには、`CMAKE_GENERATOR`の環境変数を変更するか、下記の通り明示的にCommand実行する
+
+```shell
+cmake -G <generator name> -S <source tree> -B <build tree>
+```
+
+- VisualStudioといったいくつかのGeneratorは、Toolset(compiler)やプラットフォーム(compiler or SDK)の使用の詳細をサポートしている
+- CMakeは`CMAKE_GENERATOR_TOOLSET`や`CMAKE_GENERATOR_PLATFORM`の環境変数をスキャンするが、明示的に特定のToolsetやPlatformを指定することができる
+
+```shell
+cmake -G <generator name> -T <toolset spec> -A <platform name> -S <source tree> -B <bulid tree>
+```
+
+- WindowsユーザーはIDE(VS)のビルドシステムを使いたいし、MacやLinuxユーザーはMakefileやNinjaを利用したい
+- CMakeはシステムの全ての種類の設定を確認し、CMakcCache.txtに保存するが、そのCacheに保存する振る舞いも設定することができる
+- 私たちが自由に使える最初のオプションは、キャッシュされた情報を事前に入力する機能である。
+- コマンドラインで設定する変数で大切なのは、Build Type(CMAKE_BUILD_TYPE)である
+  - 1つの設定のGenerator(GNU MakeやNinja)はBuild Typeの設定が必要(DebugやReleaseやMinSizeRelやRelWithDebInfo)
+
+```shell
+cmake -S . -B ./Build -D CMAKE_BUILD_TYPE=Release
+```  
 

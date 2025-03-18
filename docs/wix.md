@@ -495,7 +495,7 @@ layout: default
 
 - Launch Conditionはインストールの初回で判定する事前条件で、不適合であればインストールが進まない
 - Feature ConditionやComponent Conditionはそれぞれ`<Feature>`や`<Component>`の子供として記述でき、条件に不適合であれば、そのFeatureやComponentがインストールされない
-- Launch Conditionは`<Product>`の間に入れたら判定されて、MSIのDBには、`LaunchCOndition`として記述される
+- Launch Conditionは`<Product>`の間に入れたら判定されて、MSIのDBには、`LaunchCondition`として記述される
 - Launch Conditionは、.NETのインストール状況をチェックしたり、管理者権限や、OSのバージョンなど、インストール以前の事前条件を判定できる
   - 条件が不適合であれば、インストールが進まない(falseの場合)
   - .NETのインストールの判断は、`WixNetFxExtension.dll`を追加する必要がある
@@ -538,4 +538,32 @@ layout: default
 - この設定であれば、MyProperty=1の場合、ComponentがInstallされる
 - Comoponent ConditionはFileやRegistryKeyやDirectoryなど個別に条件を設定できる
 - Component Conditionは初回のインストールしか判断しないので、再インストールでも条件を再評価するには、`<Component>`に`Transitive="true"`が必要(p118)
+
+- `<Feature>`の`Level`属性について
+  - FeatureのActionStateとは、ユーザーがFeatureをインストールするかどうかを決める値が格納される
+    - Unknown : Constingが実行されないからなどから、状態が未定義になって、どのアクションも起きない
+    - Advertised : 宣伝通りにインストールされる
+    - Absent : FeatureやComponentはインストールされない
+    - Local : ローカルのハードディスクにインストールされる
+    - Source : ネットワークなどのソースからFeatureやComponnentは実行される
+  - ActionStateはCostingが実行されるまでに設定される。
+  - Constingはハードドライブにどれぐらい余裕の容量が必要かを判断するプロセス(`CostFinalized`のイベント) 
+  - Constingが終われば、特殊な構文でFeatureやComponentのActionStateが取得できる
+  - アクションステートを取得したい場合は、Featureであればアンパサンド(&)を名前(ID?)の前につければよい。コンポーネントであればドルマーク($)をつければよい
+    - `&MainFeature = 3`, `$ComponentA = 3`とする
+    - 各数値の意味はp120を参照
+  - `CostFinalized`のアクションの後に利用するのがよい
+- Windowsインストーラーはインストールされているかどうか確認する際に、`install state`を使って確認する
+  - FeatureであればIDに！をつけ、ComponentはIDに？をつけて、Install Stateを参照できる
+  - `!MainFeature = 3`や`?ComponentA = 3`
+  - 各数値の意味は、p121を参照
+  - CustomActionの条件式で、ActionStateやInstalled Stateが利用できる
+
+```XML
+<Custom Action="MyCustomAction"...>
+  <![CDATA[$ComponentA = 2 AND ?ComponentA = 3]]>
+</Custom>
+```
+
+## 5: Understanding the Installation Sequence
 

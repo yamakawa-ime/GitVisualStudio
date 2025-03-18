@@ -118,6 +118,12 @@ cmake -G <generator name> -T <toolset spec> -A <platform name> -S <source tree> 
 ```
 
 - WindowsユーザーはIDE(VS)のビルドシステムを使いたいし、MacやLinuxユーザーはMakefileやNinjaを利用したい
+
+```shell
+// これで利用できるプラットフォームの一覧を確認できる
+cmake --help
+```
+
 - CMakeはシステムの全ての種類の設定を確認し、CMakcCache.txtに保存するが、そのCacheに保存する振る舞いも設定することができる
 - 私たちが自由に使える最初のオプションは、キャッシュされた情報を事前に入力する機能である。
 - コマンドラインで設定する変数で大切なのは、Build Type(CMAKE_BUILD_TYPE)である
@@ -127,3 +133,46 @@ cmake -G <generator name> -T <toolset spec> -A <platform name> -S <source tree> 
 cmake -S . -B ./Build -D CMAKE_BUILD_TYPE=Release
 ```  
 
+- プロジェクトからBuild Treeを生成するオプションはたくさんあるが、混乱や見落としやすい。
+- 開発者はプロジェクトに対してどのように相互作用するのかを設定することができ、`CMakePresets.json`でデフォルトの設定を提供することができる(16章参照)
+- Build TreeをCleanする方法は下記の通り(Cleanって書いてるけど、やってみたら振る舞いがSolution/Projectファイルを再生成する振る舞いぽかった)
+
+```shell
+// Solution/Projectファイルの再生成っぽい振る舞い
+cmake --fresh -S <source tree> -B <build tree>
+```
+
+- Build Treeができたら、次は実際にBuildして実行ファイルを作る！(Build方法は以下の通り)
+
+```shell
+cmake --build <build tree> [<options>] [-- <build-tool-options>]
+//シンプルに
+cmake --build <build tree>
+```
+
+- 並列ビルドも対応している p20
+- 指定したVSのプロジェクトをビルドすることもできる
+
+```shell
+// <target>には、VSの.vsxprojファイルを指定する
+cmake --build <build tree> --target <target1> --target <target2>
+// --targetを-tにしてもOK
+```
+
+- Cleanする方法と、Cleanして通常ビルドする方法配下の通り
+
+```shell
+// Cleanするだけ
+cmake --build <build tree> -t clean
+// Cleanして通常ビルドする
+cmake --build <build tree> --clean-first
+```
+
+- Releaseビルドする方法(指定しなければデフォルトはDebugビルドとなる)
+
+```shell
+// <cfg>にReleaseを指定する(ほかの文字を入れるとエラーになる)
+cmake --build <build tree> --config <cfg>
+// ReleaseをCleanするには
+cmake --build <build tree> -t clean --config Release
+```

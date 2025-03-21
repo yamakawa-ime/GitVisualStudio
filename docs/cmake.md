@@ -176,3 +176,103 @@ cmake --build <build tree> --config <cfg>
 // ReleaseをCleanするには
 cmake --build <build tree> -t clean --config Release
 ```
+
+- 実行ファイルを作る際のビルドで、コンパイラーから詳細なLog(VSと同等の出力)を出力する方法は以下の通り
+
+```shell
+cmake --build <build tree> --verbose
+or
+cmake --build <build tree> -v
+```
+
+- CMakeでインストールまで実行することができるが、Windows環境だとちょっと振る舞いがわからなかった。。。
+
+```shell
+cmake --install <build tree>
+```
+
+- CMakeのスクリプトを実行する方法
+
+```shell
+cmake[{-D <var>=<value>}...] -P <cmake script file> [-- <unparsed options>...]
+```
+
+- レアなケースだが、直でCMakeコマンドを実行する方法もあるが、一部のコマンドしか実行できない(詳細は、`cmake -E`を実行すと利用できるコマンドが表示される)
+
+```shell
+cmake -E <command> [<options>]
+```
+
+- `CTest`コマンドを利用すると、テストができる(詳細は11章)
+- CPackコマンドラインを使うと、様々なプラットフォームに対して頒布用のモジュールを生成できる(installerやNuGetパッケージ、macOSバンドルなどなど)(詳細は１４章)
+
+### CMakeのプロジェクトファイルやプロジェクトディレクトリについて
+
+- Source Treeについて
+  - c++ファイルや、CMakeプロジェクトファイルを格納する
+    - `CMakeLists.txt`は必要
+    - このフォルダのパスは`-S`で指定するので明確にすること
+    - CMakeコードにこのSourceTreeの「絶対」パスをハードコーディングしないこと
+
+- Build Treeについて
+  - ビルドに必要なファイルをこのファイルに生成する(ソリューションファイルやキャッシュファイルなど)(`build root`や`binary tree`と呼ぶよ)
+    - ビルドの設定ファイルなどのビルドツールが生成するファイルはここに生成されるよ
+    - CMakeは、このBuildディレクトリをソースファイルとは別の場所に作ることを推奨する
+    - `-B`オプションで指定するフォルダになるよ
+    - このフォルダはGit登録しないほうがいいよ
+
+- ListFileについて 
+  - CMake言語を含んでいるファイルはListFileと呼び、`include()`や`find_package()`などで含めることができる。`xxx.cmake`というファイルであればよい
+
+- Projectファイルについて(CMakeList.txt)
+  - CMakeList.txtはSorceTreeの直下に置く必要があり、CMakeの実行フェーズに一番初めに実行される
+  - `CMakeLists.txt`は最低限でも２つのコマンドを含める必要がある
+    - `cmake_minimum_required(VERSION <x.xx>)`：CMakeの最低バージョンを記載し、過去バージョンのCMakeの振る舞いをサポートするように指示する
+    - `project(<name> <OPTIONS>)`：`PROJECT_NAME`変数に格納するプロジェクトの名前を指定する。オプションについては、２章で解説
+  - 開発が進むと、ソースを分けることがあるが、CMakeはCMakeLists.txtをsubフォルダ分けで管理することもサポートしている
+
+```
+myProject/CMakeList.txt
+myProject/api/CMakeLists.txt
+myProject/api/api.h
+myProject/api/api.cpp
+```
+
+- この場合、直下のCMakeList.txtは下記のように記載すれば、apiフォルダ内のソースも含めることができる
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(app)
+message("Top level CMakeLists.txt")
+add_subdirectory(api)
+```
+
+- トップレベルのCMakeList.txtは、依存関係、必須条件や開発環境を管理する
+- `add_subdirectory(api)`によって、apiフォルダの中の`CMakeList.txt`を含めることができる
+
+- Cacheファイル
+  - キャッシュ変数はリストファイルから生成され、`CMakeCache.txt`に格納される
+  - CMakeCache内の`EXTERNAL`はユーザーが編集してもよいが、`INTERNAL`はCMakeが管理するキャッシュ変数
+  - このファイルは自身で、cmakeコマンドやGUIを利用して、編集することができる
+  - CMakeCacheを消すことで、デフォルトの設定でプロジェクトをリセットすることができる
+
+- Package定義ファイル
+  - 14章(Installing and Packaging)で詳細を解説
+  - Config-filesはライブラリバイナリーやヘッダーなどのヘルプツールをどのように使うかに関する情報が格納されている
+  - ファイル名は、`<PackageName>-config.cmake`か`<PackageName>Config.cmake`とする
+  - `find_package()`コマンドでパッケージを含める命令をする
+
+- 生成されるファイルについて
+  - 多くのファイルは生成過程でCMakeによってBuild Treeに生成されるが、それらは主導で編集すべきではない。CMakeは、CMake installアクションや、CTestやCPackの過程でその設定を利用する
+    - `cmake_install.cmake`や`CTestTestfile.cmake`や`CPackConfig.cmake`を確認する
+
+- Presetファイルについて
+  - キャッシュ変数や生成器やBuild Treeなどを追加で設定する場合は、毎回主導で設定する以外に、Presetファイルを使うことで、設定が簡単になる
+  - `cmake --list-presets`で現在のPresetを確認し、`cmake --preset=<preset> -S <source> -B <build tree>`でプリセットを反映することができる
+  - Presetファイルは、以下のファイルで提供される
+    - `CMakePresets.json`：プロジェクトの作者が公式のPresetとして提供する
+    - `CMakeUserPresets.json`：プロジェクトの設定をカスタマイズしたいユーザーが提供するPresetファイル
+  - Presetファイルは必ずしも必要ではないが、カスタマイズしたいなどの進んだケースでは有益(16章を参照)
+
+## 2: The CMake Language
+

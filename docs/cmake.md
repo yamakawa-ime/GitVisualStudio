@@ -192,9 +192,18 @@ cmake --install <build tree>
 ```
 
 - CMakeのスクリプトを実行する方法
+  - CMakeスクリプトを実行しても、CMakeの設定や生成ステージが走るわけではなく、キャッシュファイルが実行されるわけではない
+  - `script.cmake`のファイル内に記述する
 
 ```shell
-cmake[{-D <var>=<value>}...] -P <cmake script file> [-- <unparsed options>...]
+cmake [{-D <var>=<value>}...] -P <cmake script file> [-- <unparsed options>...]
+```
+
+```cmake
+# script.cmakeの例(初めのバージョンの記述は書くことを推奨(cmakeの互換性のため))
+cmake_minimum_required(VERSION 3.26.0)
+message("Hello world")
+file(WRITE Hello.txt "I am writing to a file")
 ```
 
 - レアなケースだが、直でCMakeコマンドを実行する方法もあるが、一部のコマンドしか実行できない(詳細は、`cmake -E`を実行すと利用できるコマンドが表示される)

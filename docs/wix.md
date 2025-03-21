@@ -567,3 +567,63 @@ layout: default
 
 ## 5: Understanding the Installation Sequence
 
+### InstallUISequence
+
+- InstallUISequenceはMSIのデータベースの名前でもあり、インストールの最初の半分の処理をさす
+- このInstallUISequenceの間では、UIを起動し、ユーザーのコンピュータを変更しないタスクを実行する(例えば、AppSearchやConditionを起動する)
+- InstallUISequenceでは下記の順番でActionが実行される
+  - FindRelatedProducts(Sequence:25)
+    - MSIのUpgradeというテーブルを見るAction。テーブルには、Upgrade CodeやVersionや言語が格納され、インストーラーは自身のソフトウエアの以前のバージョンを探す際の基準として利用する。以前のバージョンが見つかれば、WindowsInstallerのプロパティがProductCodeにセットされる。このプロパティは現在のインストールがUpgradeなのかDowngradeなのかを確認するために利用する
+  - AppSearch(50)
+    - AppSearchのActionはAppSearchテーブルを読みWixのMarkupで記載されている検索を実行する。(ファイルやディレクトリやレジストリキーを探すなど(p90のAppSearch))
+  - LaunchConditons(100)
+    - LaunchConditionのテーブルに記載の条件を確認・実行する
+  - Validate ProductID(700)
+    - エンドユーザーからソフトウエアのレジストリーキーを集めて、`PIDKEY`に格納する。このプロパティは、`PIDTemplate`と比較され、`PIDKEY`と一致するはず。`ProductID`がセットされる
+  - CostInitialize(800)
+    - インストールの際に、現在のマシンに余裕があるか計算する、Costing処理が実行される。この時、ComponentやFeatureテーブルがメモリーに展開されインストーラーがどのComponentやFeatureがインストールするかを確認するステージに移行する
+  - FileCost(900)
+    - インストーラーがコスト計算をスタートする。もしエンドユーザーのマシンに前回のインストールで入れた同じファイルがあったとしたら、ファイルバージョンが新しければ置き換えられることになる。
+  - CostFinalize(1000)
+    - ここでは、Cost計算はLevelの設定状況でインストールすべきでないComponentやFeatureのことを考慮する。全てのターゲットディレクトリが書き込み可かどうか確認する。このフェーズでConting処理が終了する
+  - MigrateFeatureStates(1200)
+    - もし以前のバージョンがインストールされていたら、このアクションはどのFeatureがインストールされているかをチェックし、そのFeatureのActionStateを現在のインストーラと同じStateに設定する。そうすることで、新しいInstallerは対応するFeatureをenabledかdisableかをFeatureTreeに表示できる。
+  - ExecuteAction(1300)
+    - 次に、InstallExecuteSequenceに制御を移す。このアクションで、管理者かユーザーかを設定する
+
+### InstallExecuteSequence
+
+- この過程で、ファイルを配置したり、レジストリを更新したり、「プログラムの機能と追加」で新しく追加したり、コンピュータを変化させるActionが実行される
+- インストールのこのパートを「サーバーサイド」と言ったり、InstallUISequenceを「クライアントサイド」と言ったりする。
+- もしインストールの際にLog出力をしていたとしたら、ログには、クライアントサイドの実行か、サーバーサイドの実行か明記されている
+
+```
+// (c)はクライアントサイド
+MSI (c) .... : Switching to server:
+// (s)はサーバーサイド
+MSI (S) .... : Grabbed execution mutex.
+// ↑ここで実行Mutexを取得しているので、この間は他のMISの実行はできない
+```
+
+- InstallExecuteSequence配下の順番で実行される(初めの6つはUIフェーズで実行されている場合はSkipされる)
+  - AppSearch
+  - LaunchConditions
+  - ValidateProductId
+  - ConstInitialize
+  - FileCost
+  - CostFinalize
+  - InstallValidate
+  - InstallInitialize
+  - ProcessComponents
+  - UnpublishFeatures
+  - RemoveRegistryValues
+  - RemoveShortcuts
+  - RemoveFiles
+  - InstallFiles
+  - CreateShortcuts
+  - WriteRegistyValues
+  - RegisterUser
+  - RegisterProduct
+  - PublishFeatures
+  - PublishProduct
+  - InstallFinalize

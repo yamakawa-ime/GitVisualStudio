@@ -285,3 +285,38 @@ add_subdirectory(api)
 
 ## 2: The CMake Language
 
+- CMakeコマンドの複数引数を分ける方法は、半角スペース！
+- CMakeコミュニティでは、sname_caseを利用するみたい
+- セミコロンは不要
+- CMakeコマンドは以下の2つに分けられる
+  - Scripting Command : 変数にアクセスしたり、コマンドの処理の状態を変更したり、他のコマンドや環境に影響したりするコマンド
+  - Project Command : プロジェクトで利用でき、プロジェクトの状態やビルドターゲットを操作する
+- CMakeが認識するデータタイプは、stringだけで、全てのコマンドの引数は、０個以上のStringを期待している
+- CMakeが期待する引数は以下の３つ
+  - かっこの引数(Bracket arguments)
+  - 引用の引数(Quated arguments)
+  - そのままの引数(UnQuated arguments)
+
+### Barcket argumentについて
+
+- カッコつきの引数は、複数のStringとして使われる
+
+```cmake
+# [[ ... ]]と2つのカッコを利用する
+message([[multiline
+bracket
+argument
+]])
+
+# [==[ ... ]==]を使うと内側に[[]]を使っても大丈夫
+message([==[
+  because we used two equal-signs "=="
+  this command receives only a single argument
+  even if it includes two square brackets in a row
+  { "petsArray" = [["mouse","cat"],["dog"]] }
+]==])
+```
+
+### Quoted argumentsについて
+
+- 

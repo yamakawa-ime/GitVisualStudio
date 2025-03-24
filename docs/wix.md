@@ -613,17 +613,43 @@ MSI (S) .... : Grabbed execution mutex.
   - FileCost
   - CostFinalize
   - InstallValidate
+    - 十分なディスクスペースがあるか計算し、MSIによるインストールを妨害する起動アプリケーションがないかもチェックする
   - InstallInitialize
+    - このActionは開始状態を宣言する。このActionからInstallFinalizeまで、Transactionが実行されるがエラーが起きればRollbackする。これは、何かエラーが起きたら中途半端なインストール状態になるのを防ぐため
   - ProcessComponents
+    - このActionではインストーラ内にあるComponentsのNoteを作り、レジストリにComponentsのGUIDを格納します。どのComponentがKeypathかも追跡します
   - UnpublishFeatures
+    - Uninstall時に、このActionはレジストリ内のComponentとFeatureのマッピングを削除し、どのFeatureが選択されているかについての情報を破棄します
   - RemoveRegistryValues
+    - Uninstall時に、このActionはMSIのレジストリーとRemoveRegistryテーブルを見に行き、削除すべきレジストリアイテムを見つけます
   - RemoveShortcuts
+    - Uninstall時に、インストーラが生成したShortcutを削除します
   - RemoveFiles
+    - Uninstall時に、このActionはシステムにコピーされたファイルやディレクトリを削除します。`<RemoveFolder>`や`<RemoveFile>`で指定したComponentも削除できます。これらのエレメントは、On属性で、installやbothを設定していると、ここでインストール時でも削除することができます。
   - InstallFiles
+    - ディレクトリやファイルを適切な場所に配置します。以前のインストールからファイルが既に存在し、そのコンポーネント GUID とバージョンが変更されていない場合は、ファイルをそのまま残すことを認識するほどスマートです。
   - CreateShortcuts
+    - ショートカットを作ります
   - WriteRegistyValues
+    - Wix要素の`<RegistryKey>`や`<RegistryValue>`でレジストリーに書き込みます。
   - RegisterUser
+    - どのユーザーがこのインストールを実行したかを登録します
   - RegisterProduct
+    - 「プログラムの追加と削除」にProductを登録します。格納場所は`%WINDIR%\Installer`となります
   - PublishFeatures
+    - このActionでは、インストール状態(Installed, advertised, absent)がレジストリに書き込まれ、ComponentがFeatureにマッピングされます
   - PublishProduct
+    - Advertisedインストールの時しか使わないのだが、このActionは、一般ユーザーにたいして、オンデマンドのインストールが可能になる
   - InstallFinalize
+    - このActionはいわゆるDeferred状態というRollbackで守られた状態の終わりを宣言します。ここを通過すれば、インストールは完了したことになります
+
+- このようにUISequenceとExecuteSequenceを分けている理由
+  - システムの変更を1つのフェーズ(InstallExecuteSequence)にまとめている理由は、WindowsInstallerがもしエラーが起きた時にRollbackの防御といった他のことを提供することができるから。
+  - ロールバック防御がまだスタートしていないが、スクリプトが実行可能な、初期状態は実行フェーズのimmediateフェーズという
+  - いったん処理が開始されたら、それはdeferredステージという。
+    - もしエラーが起きれば、その点でRollbackアクションをするスクリプトを利用する
+    - deferredステージにのみ、Rollback防御がある
+    - UI Sequenceはこの特徴を持っていないので、巣ステムを変更するActionはそこでは絶対に起きない
+- これからCustomActionを作っていくが、そのActionはDeferredActionになるように作ることに気を使うこと。そして、ExecuteフェーズのInstallInitializeとInstallFinalizeの間で実行するようにスケジュール設定をすること。また、自身でrollbackアクションも作る必要がある。
+
+### CustomActionについて

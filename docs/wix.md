@@ -615,7 +615,7 @@ MSI (S) .... : Grabbed execution mutex.
   - InstallValidate
     - 十分なディスクスペースがあるか計算し、MSIによるインストールを妨害する起動アプリケーションがないかもチェックする
   - InstallInitialize
-    - このActionは開始状態を宣言する。このActionからInstallFinalizeまで、Transactionが実行されるがエラーが起きればRollbackする。これは、何かエラーが起きたら中途半端なインストール状態になるのを防ぐため
+    - このActionは「deferred」状態を宣言する。このActionからInstallFinalizeまで、Transactionが実行されるがエラーが起きればRollbackする。これは、何かエラーが起きたら中途半端なインストール状態になるのを防ぐため
   - ProcessComponents
     - このActionではインストーラ内にあるComponentsのNoteを作り、レジストリにComponentsのGUIDを格納します。どのComponentがKeypathかも追跡します
   - UnpublishFeatures
@@ -653,3 +653,62 @@ MSI (S) .... : Grabbed execution mutex.
 - これからCustomActionを作っていくが、そのActionはDeferredActionになるように作ることに気を使うこと。そして、ExecuteフェーズのInstallInitializeとInstallFinalizeの間で実行するようにスケジュール設定をすること。また、自身でrollbackアクションも作る必要がある。
 
 ### CustomActionについて
+
+- システムを変更する(ファイル変更、データベースのセットアップユーザー権限の設定など)Actionをしたい場合は、必ずExecuteSequenceのDeferredステージで発生させること
+- それ以外なら、UISequenceでもExecuteSequenceでもどちらでも、Actionを定義してもよい
+- CustomActionの書き方
+
+```XML
+<!-- Executeは実行方法を定義、ReturnはそのReturn状態はどのように扱われるべきかを定義 -->
+<!-- この場合は、deferredステージで実行し、完了したときに成功かどうかチェックする -->
+<CustomAction Id="MyAction" Execute="deferred" Return="check" ... />
+```
+
+- 以下の7つのタイプのカスタムアクションがある
+  - Windows InstallerのPropertyをセットする
+  - ディレクトリのLocationを設定する
+  - VBScriptやJScriptのコードを実行する
+  - 外部のVBScriptやJScriptのファイルを呼び出す
+  - DLLからメソッドを呼び出す
+  - 実行ファイルを実行する
+  - インストールを止めるエラーを送信する
+- ExecuteSequenceにCutomActionを追加するためには、`<InstallExecuteSequence>`と`<Custom>`が必要
+
+```XML
+<CustomAction Id="MyAction" Execute="deferred" Return="check" .../>
+
+<InstallExecuteSequence>
+  <!-- Action属性で、CustomActionのIDを指定、AfterでどのActionに後に実行するかを設定する、Beforeでも設定できる -->
+  <!-- Sequence属性も設定できる。InstallExecuteSequenceテーブルのSequence列の数字を設定する -->
+  <Custom Action="MyAction" After="InstallInitialize" />
+
+  <!-- 自分のCustomActionの後にCustomActionも設定できる -->
+  <Custom Action="MyAction2" After="MyAction" />
+</InstallExecuteSequence>
+
+<!-- ****************************** -->
+
+<!-- UISequenceの設定方法 -->
+<CustomAction Id="MyUIAction" Execute="immediate" Return="ignore" .../>
+
+<InstallUISequence>
+  <Custom Action="MyUIAction" After="CostFinalize" />
+</InstallUISequence>
+```
+
+- Executeに設定できるよく使う値は、immediateとdeferred、rollback、commitだが、後半３つはExecuteSequenceで利用する。
+  - commitを設定したときは、いったんインストールが完了したら実行される設定
+  - もちろんUISequenceとExecuteSequenceの両方で同じCustomActionを設定することができるが、そのCustomActionを以下のExecute属性の設定で制御できる
+    - firstSequenceを設定すると、1回だけ実行する
+    - secondSequenceと設定すると、UISequenceで実行した場合にExecuteSequenceで実行される
+- Return属性は、インストーラーに、カスタム アクションが処理を完了するまで待機してから続行するかどうか、および戻りコードを評価するかどうかを指示します。
+  - asyncNoWait : CustomActionは非同期で実行され、インストーラーが終わったとしてもその実行は続く
+  - asyncWait : CustomActionは非同期で実行されるが、インストーラーはその処理が終わって戻り値が車で待つ
+  - check : CustomActionは同期的に実行され、戻りコードが成功かどうかチェックされます。これがデフォルトのふるまい
+  - ignore : CustomActionは同期的に実行され、戻り値はチェックされない。
+- deferredステージでは、もしCustomActionが失敗して、Return属性が、checkかasyncWaitであれば、ロールバックが発生し、そこからの全ての変更が元に戻される
+- immediateフェースであれば、失敗すればその時点でインストールが終了する
+
+#### CustomAction:1 WindowsInstallerのPropertyを設定する
+
+- 

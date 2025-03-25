@@ -1,3 +1,5 @@
 cmake_minimum_required(VERSION 3.26.0)
-message("Hello world")
-file(WRITE Hello.txt "I am writing to a file")
+set(MyString1 "Hello World")
+set([[My String2]] "yamakawa")
+set("My String3" "takuya")
+message(${My\ String2})

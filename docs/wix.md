@@ -711,4 +711,67 @@ MSI (S) .... : Grabbed execution mutex.
 
 #### CustomAction:1 WindowsInstallerのPropertyを設定する
 
-- 
+- プロパティをCustomActionでセットできる
+
+```XML
+<CustomAction Id="rememberInstallDir" Property="ARPINSTALLLOCATION" Value="[XXXX]" />
+
+<InstallExecuteSequence>
+  <Custom Action="rememberInstallDir" After="InstallValidate" />
+</InstallExecuteSequence>
+```
+
+- `<SetPropery>`を使うと、もっと気軽にPropertyをセットできる
+
+```XML
+<!-- Sequence属性でexecuteを設定すると、InstallExecuteSequenceと同じ設定となる -->
+<SetProperty Id="MyProperty" Value="123" After="InstallInitialize" Sequence="execute" />
+```
+
+- この設定によって、SetMyPropertyというCustomActionが生成される。
+
+#### CustomAction2: インストールするディレクトリの場所を設定できる
+
+```XML
+<!-- すでに<Directry>にIdをDataDirにしている前提 -->
+<CustomAction Id="SetAppDataDir" Directory="DataDir" Value="[CommonAppDataFolder]MyProduct" />
+
+<!-- ファイルをインストールする前にDirectoryの位置を決めないといけない -->
+<InstallExecuteSequence>
+   <Custom Action="SetAppDataDir" Before="InstallFiles" />
+</InstallExecuteSequence>
+
+<!-- これでもOK -->
+<SetDirectory Id="DataDir" Value="[CommonAppDataFolder]MyProduct" Sequence="execute" />
+```
+
+- このActionが実行されると、`<Directory Id="DataDir">`になっているところの具体的な場所が、`[CommonAppDataFolder]MyProduct`になる
+
+#### CustomAction3: VBScriptやJScriptのコードを実行する
+
+- JScriptやVBScriptをCutomActionの中に埋め込むことができる
+
+```XML
+<!-- このアクションをScheduleすれば実行できる -->
+<CustomAction Id="testVBScript" Script="vbscript" Execute="immediate">
+  <![CDATA[
+    <!-- ここにVBScriptを直で書くことができる -->
+    msgbox "this is embedded code..."
+    <!-- Session.PropertyでWixのプロパティにアクセスできる -->
+    msgbox "MyProperty: " & Session.Property("MyProperty")
+  ]]>
+</CustomAction>
+```
+
+- しかし、公式としてはVBScriptを埋め込むとデバッグがしにくいので、デバッグしやすいC#やC++でやるほうがいい
+- ちなみに、埋め込むVBScriptをxxx.vbsとファイルに分けることができる。この際Return 1にすると成功、return 3にすると失敗扱いになる
+- VBのファイルを呼び出すためには、Wixで初めにBinary要素で宣言して、CustomActionのBinaryKeyにそのID、VBScriptCallで呼び出す関数を宣言する
+
+```XML
+<Binary Id="myScriptVBS" SourceFile=".\myScript.vbs"/>
+
+<!-- 実行するにはScheduleするだけ -->
+<CustomAction Id="myScript_CA" BinaryKey="myScriptVBS" VBScriptCall="myFunction" Execute="immediate" Return="check" />
+```
+
+#### DLLからメソッドを呼び出す

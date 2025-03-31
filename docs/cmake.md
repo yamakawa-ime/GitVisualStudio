@@ -396,4 +396,28 @@ set(FOO "bar" CACHE STRING "interesting value" FORCE)
 ```
 
 - 変数がキャッシュファイルに存在しない場合や、FORCEオプションが設定されているときは、値が永続化される
-- 
+- 変数のスコープについて2種類ある
+  - File変数スコープ：ブロックやカスタム関数がファイル内で実行されるときに使われる
+    - (macro()ではなく)block()やfunction()がつかられたときに、スコープがOpenし、endblock()やendfunction()が実行された時にスコープが閉じる
+  - Directory変数スコープ：add_subdirectory()コマンドを呼び出して、ネストしたディレクトリで別のCMakeList.txtを実行するときに利用する
+- スコープの整理は以下の通り
+
+```cmake
+set(V 1)
+message("Global : ${V}")
+block()
+    message("Outer : ${V}")
+    set(V 2)
+    block()
+        message("Inner : ${V}")
+        set(V 3)
+        message("Inner : ${V}")
+    endblock() 
+    <!-- ここは２になる -->
+    message("Outer : ${V}")
+endblock()
+<!-- ここはGlobalに設定された１になる -->
+message("Global : ${V})
+```
+
+### リストの利用

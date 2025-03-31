@@ -775,3 +775,30 @@ MSI (S) .... : Grabbed execution mutex.
 ```
 
 #### DLLからメソッドを呼び出す
+
+- WindowsInstallerは標準では.NETをサポートしておらずC/C++を利用するのだが、コンパイル時にC#をC++のDLLに変換している
+- .NETのDLLを作成する場合は、インストールするユーザーのPCにも該当する.NET Frameworkがインストールしている必要がある
+- .NET Frameworkに依存しないのであれば、C++のカスタムアクションのDLLを作ればよい
+- `using Microsoft.Deployment.WindowsInstaller`でプロパティやFeatureやComponentにアクセスできる`Session`クラスを利用できる 
+- `ActionResult`はカスタムアクションが成功したか失敗したかを記述する
+- `[CustomAction]`と引数が`Session`であれば、クラス名やメソッド、ネームスペースは自由で問題ない
+- 1つのDLLに記述できるカスタムアクションには上限がある
+  - Wix3.6からは、128個が上限。もしそれ以上のCustomActionを作りたいのであれば、もう1つプロジェクトを作る必要がある
+- コンパイルすると、`.dll`と`.CA.dll`が生成され、2つ目のDLLがWixプロジェクトで参照するものである。なぜならMSIが認識するunmanagedなコードを持っているから
+- Wixプロジェクトが.NETのCustomActionを参照する方法は、Wixプロジェクトで「参照の追加」で参照するか、直接DLLを参照するかである
+  - 直接参照する場合、参照パスで`.CA.dll`を直接参照しないといけない(`<Binary Id="myCustomActionDLL" SourceFile="./myCustomAction.CA.dll" />`)
+  - 「プロジェクトの追加」で参照する場合、参照パス(`$(var.{ProjectName}.TargetDir`)を使って、`<Binary Id="myCustomActionDLL" SourceFile="$(var.myCustomActions.TargetDir)myCustomAction.CA.dll" />`を追加する必要がある
+- そしてその.NETのCustomActionを実行するには、CustomActionを定義して、Sequenceに追加する必要がある
+
+```XML
+<!-- BinaryKeyは<Binary>で定義したdllのID、DLLEntryはC#のメソッド名 -->
+<CustomAction id="CA_myCustomAction" BinaryKey="myCustomActionDLL" DLLEntry="myFunction" Execute="immediate" Return="check" />
+
+<InstallUISequence>
+  <Custom Action="CA_myCustomAction" After="CostFinalize" />
+</InstallUISequence>
+```
+
+- CustomActionを作るために使ったScriptファイルやDLLはユーザーのPCにはインストールはされないし、MSIの中にパッケージされる
+
+#### 実行ファイルを実行する

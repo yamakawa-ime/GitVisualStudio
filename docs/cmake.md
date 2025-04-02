@@ -413,11 +413,46 @@ block()
         set(V 3)
         message("Inner : ${V}")
     endblock() 
-    <!-- ここは２になる -->
+    # ここは２になる 
     message("Outer : ${V}")
 endblock()
-<!-- ここはGlobalに設定された１になる -->
+# ここはGlobalに設定された１になる 
 message("Global : ${V})
 ```
 
 ### リストの利用
+
+- listを作るには、セミコロンを利用するか、スペースで区切る
+
+```cmake
+set(myList a list of five elements)
+set(myList "a;list;of;five;elements")
+```
+
+### CMakeの制御構造についての理解
+
+- ifで条件ブロックが書ける(endif()で閉じる必要がある)
+- ifの条件文では`NOT`や`AND`、`OR`が書ける
+- 引用なしの変数でもifの条件分の中に入れても評価される
+
+```cmake
+# 変数BAZにはfalseが入る
+set(BAZ false)
+# 変数QUXには"BAZ"という文字が入る
+set(QUX "BAZ")
+# 個のアクセスだとQUXには文字"BAZ"が入ってるのでTrueになる
+# if(${QUX})だと、if(${BAZ})と同じなので、Falseになる
+if(QUX)
+    message(true)
+else()
+    message(false)
+endif()
+```
+
+- 変数が定義されているか確認する際は、DEFINEDを使うとその判定ができる
+
+```cmake
+if(DEFINED <name>)
+if(DEFINED CACHE{<name>})
+if(DEFINED ENV{<name>})
+```

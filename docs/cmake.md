@@ -456,3 +456,60 @@ if(DEFINED <name>)
 if(DEFINED CACHE{<name>})
 if(DEFINED ENV{<name>})
 ```
+
+- 比較演算子あるよ : `EQUAL LESS LESS_EQUAL GREATER GREATER_EQUAL`(一般的な`< > <= >= ==`は使えない)
+- 例) `if(1 LESS 2)`など
+- `VERSION_XXX`をつけると、バージョンで比較できる
+- 文字列比較をする場合は`STRXXX`と接頭辞をつける
+- 正規表現チックなものも利用できるが、公式リファレンスを参考にすること
+  - `<variable/string> MATCHES <regex>`で判定できる
+- 他にもTrue/Falseを判定する方法は以下の通り
+  - その値がListにあるかどうか判定：`<variable/string> IN_LIST <variable>`
+  - 現在のCMakeでそのコマンドが実行できるかの判定：`COMMAND <command_name>`
+  - 現在のCMakeでそのポリシーが存在するかどうかの判定：`POLICY <policy_id>`
+  - ビルドターゲットが定義されているかどうかの判定：`TARGET <target_name>`
+- ファイルの様々な判定する方法は以下の通り
+  - ファイルやディレクトリが存在するかどうかの判定：`EXISTS <filePath/directoryPath>`
+  - 標準でシンボリックリンクを解決します
+  - どのファイルが新しいか判定：`<file1> IS_NEWER_THAN <file2>`
+  - ディレクトリかどうかの判定：`IS_DIRECTORY <directoryPath>`
+  - シンボリックリンクかどうかの判定：`IS_SYMLINK <fileName>`
+  - 絶対パスかどうかの判定：`IS_ABSOLUTE <path>`
+- whileループの方法
+
+```cmake
+while(<condition>)
+  <commands>
+endwhile()
+```
+
+- foreachループの方法
+
+```cmake
+foreach(<loop_variable> RANGE <max>)
+  <commands>
+endforeach()
+# そのほか、min,max,stepを指定して実行できる
+foreach(<loop_variable> RANGE <min> <max> [<step>])
+# 自身のListとその場で定義したリスト(ITEMS <items>)をforeachで回せる
+foreach(<loop_variable> IN [LISTS <lists>] [ITEMS <items>])
+# 例)mylistと新規のリスト[e f]を結合してVARでforループする
+foreach(VAR IN LISTS mylist ITEMS e f)
+# INキーワードがなくてもforループできる(1,2,3,e,fを出力)
+foreach(VAR 1 2 3 e f)
+```
+
+- foreachコマンドは0からmax(max含む)まで実行します
+- `ZIP_LISTS`を利用すると2つのListを結合できる
+
+```cmake
+set(L1 "one;two;three")
+set(L2 "1;2;3")
+foreach(num IN ZIP_LISTS L1 L2)
+    # XXX_0(L1アクセス), XXX_1(L2アクセス)で各リストの中身をアクセス
+    message("${num_0} = ${num_1}")
+endforeach()
+
+# xxx_0などの添え字が嫌ならば、変数を複数用意すると、それぞれの変数に格納される
+foreach(word num IN ZIP_LIST L1 L2)
+```

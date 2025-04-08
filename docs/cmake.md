@@ -513,3 +513,50 @@ endforeach()
 # xxx_0などの添え字が嫌ならば、変数を複数用意すると、それぞれの変数に格納される
 foreach(word num IN ZIP_LIST L1 L2)
 ```
+
+- `macro()`や`function()`を使うと、自分のコマンドを定義できる
+
+```cmake
+macro(<name> [<argument>...])
+  <commands>
+endmacro()
+```
+
+- macroだと、macro内で変数を変更すると、一見するとスコープの離れた所にも影響して混乱するので、なるべく`function()`を利用すること(ややこしい問題を回避できる)
+
+```cmake
+# functionはローカルスコープをつくるのでこちらを使うべき
+function(<name> [<arguments>...])
+  <commands>
+endfunction()
+```
+
+### CMakeの手続き的な概念について(The procedural paradigm in CMake)
+
+- CMakeでは、コマンドを呼び出す前にコマンドの定義が必要なため、手続き的に書くと問題が生じる可能性がある
+- マクロで`main`関数を作ると、見通しの良いCMakeのコードが書けるよ
+
+```cmake
+macro(main)
+  message("main()")
+  setup_first_target()
+  setup_second_target()
+  setup_tests()
+  message("end main()")
+endmacro()
+
+function(setup_first_target)
+  message("  setup_first_target()")
+endfunction()
+
+function(setup_second_target)
+  message("  setup_second_target()")
+endfunction()
+
+function(setup_tests)
+  message("  setup_tests()")
+endfunction()
+
+# 最後にマクロで定義したメインを実行する
+main()
+```

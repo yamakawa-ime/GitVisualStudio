@@ -560,3 +560,18 @@ endfunction()
 # 最後にマクロで定義したメインを実行する
 main()
 ```
+
+### 命名について
+
+- CMakeはスネークケースを利用
+- 十分意味の伝わる身近な名前を利用
+- しゃれた名前やトリッキーな名前は避ける
+- 自然に読める命名にする
+
+### よく使うコマンド
+
+#### `message()`コマンド
+
+- `message(<MODE> "test to output")`のModeに色々入れると表現変わる
+  - `FATAL_ERROR`, `SEND_ERROR`, `WARNING`, `DEPRECATION`, `NOTICE`, `STATUS`, `VERBOSE`, `DEBUG`, `TRACE`
+- CMakeはデバッガーやブレイクポイントは設定できないので、メッセージでデバッグするのが有効です

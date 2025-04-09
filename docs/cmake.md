@@ -575,3 +575,45 @@ main()
 - `message(<MODE> "test to output")`のModeに色々入れると表現変わる
   - `FATAL_ERROR`, `SEND_ERROR`, `WARNING`, `DEPRECATION`, `NOTICE`, `STATUS`, `VERBOSE`, `DEBUG`, `TRACE`
 - CMakeはデバッガーやブレイクポイントは設定できないので、メッセージでデバッグするのが有効です
+
+#### `include()`コマンド
+
+- ファイル(xxx.cmake)を分けた場合に、`include()`で参照することができる
+
+```cmake
+# OPTIONALを設定すると、includeに失敗しても処理が続く？
+# RESULT_VARIABLEを設定すると、読み込めたときにその変数にそのファイルパスが格納される
+include(<file/module> [OPTIONAL] [RESULT_VARIABLE <var>])
+
+# 相対パスの設定も可能(${CMAKE_CURRENT_LIST_DIR}は現在のそのファイルのパス)
+include("${CMAKE_CURRENT_LIST_DIR}/<filename>.cmake)
+```
+
+- ファイル名を指定しない場合は、CMakeのモジュールディレクトリからモジュールを検索する
+- CMakeは下記の組み込みパラメータからincludeの際に探しに行く
+  - CMAKE_CURRENT_LIST_DIR, CMAKE_CURRENT_LIST_FILE, CMAKE_PARENT_LIST_FILE, CMAKE_CURRENT_LIST_LINE
+
+#### `include_guard()`コマンド
+
+- 1回だけincludeしたいときは、`include_guard([DIRECTOYR|GLOBAL])`を使う
+- C++のインクルードガードと同じ運用で、ファイルの先頭に記述する
+- DIRECTORYを記述すると、そのディレクトリ内でincludeガードを適応し、GLOBALにすると全ファイル対象でincludeガードが適応される
+
+#### `file()`コマンド
+
+- `file()`コマンドを利用すると、ファイルシステムを使って、ファイルを読み込んだり、ファイルに書き込んだり、ファイルを転送したりできる
+
+#### `execute_process()`コマンド
+
+- 他のプロセスを実行する場合に利用する(外部プログラムの実行)
+- この機能はConfigurationステージのみで利用可能
+
+```cmake
+execute_process(COMMAND <cmd1> [<arguments>...] [OPTION])
+```
+
+- TIMEOUTオプションを利用すると、タイムアウトの時間を設定可能
+- exit codeは`RESULTS_VARIABLE <variable>`を設定することで、変数に格納される
+
+## 3: Using CMake in Popular IDEs
+

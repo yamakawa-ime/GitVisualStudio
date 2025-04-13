@@ -755,4 +755,6 @@ add_library(CarsSystem OBJECT car.cpp)
 target_include_directories(CarsSystem PUBLIC .)
 ```
 
+- `add_subdirectory()`コマンドで、現在のコードに無関係な要素を示す`EXCLUDE_FROM_ALL`オプションを説明したが、CMake公式では、もしそういった無関係な要素がsource treeに存在する場合は、その要素は自身の`project()`コマンドを自身のCMakeList.txtに持つべきと書いてある(独立してBuildSystemを生成できるように)
+
 

@@ -715,4 +715,44 @@ add_executable(RentalSystem
 
 ### サブディレクトリのスコープを管理する
 
+```cmake
+# <source_dir>は別管理するCMakeList.txtがあるSubDirectoryのパス(相対パス)
+# <binary_dir>はそのSubDirectoryがビルドしたときのパス
+# EXCLUDE_FROM_ALLは自動のビルドターゲット指定から外す
+add_subdirectory(<source_dir> [<binary_dir>] [EXCLUDE_FROM_ALL])
+```
+
+- ファイル構成
+
+```
+project-root/
+├── CMakeLists.txt
+├── main.cpp
+└── cars/
+    ├── CMakeLists.txt
+    ├── car.cpp
+    └── car.h
+```
+
+- 親のCMakeList.txt
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(YMRentalCompany CXX)
+add_executable(YMRentalSystem main.cpp)
+add_subdirectory(cars)
+# SubDirectoryのプロジェクトをメインのプロジェクトにリンクする
+target_link_libraries(YMRentalSystem PRIVATE CarsSystem)
+```
+
+- SubDirectoryのCMakeList.txt
+
+```cmake
+# グローバルに見えるライブラリを生成(CarsSystemはプロジェクトファイル名)
+# OBJECT設定なので単体ではリンクできない
+add_library(CarsSystem OBJECT car.cpp)
+# Publicのインクルードディレクトリに追加
+# 親のtarget_link_libraries()で、main.cppが相対パスなしに#include "car.h"とインクルードできる(追加のインクルードディレクトリっぽいふるまい)
+target_include_directories(CarsSystem PUBLIC .)
+```
+
 

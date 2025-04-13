@@ -646,7 +646,7 @@ add_executable(Hello main.cpp)
   - `cmake_minimum_required()`の後に書きましょう
 
 ```cmake
-# project()の使い方
+# project()の使い方,<PROJACT-NAME>はVSではソリューションファイルの名前になる
 project(<PROJECT-NAME> 
         [VERSION <major>[.<minor>[.<patch>[.<tweak>]]]]
         [DESCRIPTION <project-description-string>]
@@ -668,5 +668,40 @@ project(<PROJECT-NAME>
   - `PROJECT_DESCRIPTION, <PROJECT-NAME>_DESCRIPTION, PROJECT_HOMEPAGE_URL, <PROJECT-NAME>_HOMEPAGE_URL`
 - `cmake_minimum_required()`と`project()`コマンドは、空のプロジェクトを初期化する
 
+### プロジェクトを分ける、仕切りをつける方法(Partitioning your project)
+
+- `include()`コマンドでcppソースを分けることができるが、不十分
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+# ソリューションの名前
+project(YMRentalCompany)
+# プロジェクトの名前
+add_executable(RentalSystem
+               main.cpp
+               cars/car.cpp)
+```
+
+- これで実行すると、VSの構成は以下のようになる
+
+ ![](images/cmake/FirstYMRentalCompany.png)
+
+- `include()`を使うとよりソースを分けることができる
+
+```cmake
+# cars/cars.cmake
+set(cars_sources
+    cars/car.cpp)
+
+# CMakeList.txt
+cmake_minimum_required(VERSION 3.26)
+# ソリューションの名前
+project(YMRentalCompany)
+include(cars/cars.cmake)
+# プロジェクトの名前
+add_executable(RentalSystem
+               main.cpp
+               ${cars_sources})
+```
 
 

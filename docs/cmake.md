@@ -615,5 +615,58 @@ execute_process(COMMAND <cmd1> [<arguments>...] [OPTION])
 - TIMEOUTオプションを利用すると、タイムアウトの時間を設定可能
 - exit codeは`RESULTS_VARIABLE <variable>`を設定することで、変数に格納される
 
-## 3: Using CMake in Popular IDEs
+## 4: Setting Up Your First CMake Project
+
+- ビルド方法
+
+```bash
+cmake -B <build tree> -S <source tree>
+cmake --build <build tree>
+```
+
+- 基本CMakeList.txtの中身
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(Hello)
+add_executable(Hello main.cpp)
+```
+
+- `cmake_minimum_required()`について
+  - プロジェクトの先頭で書く必要がある
+  - システムに適切なCMakeのバージョンが入っているか確認するだけでなく、暗黙的に他のコマンド(`cmake_policy(VERSION)`)を実行して、このプロジェクトで使われるポリシーを明確にする
+    - これらのポリシーはコマンドがCMake内でどのようにふるまうか定義し、サポートしている言語やCMakeそのものでの変更は改善に適合するために、CMakeの開発の過程で導入される
+    - このCMakeのポリシーのおかげで、たとえ後方互換がない変更があった時でも、Cmakeは後方互換ができるようにサポートしてる？(p99To Keep the ....)
+  - `cmake_minimum_required()`を呼んで、その引数に指定されているバージョンで設定されているデフォルトのポリシーを適応するように命令する
+    - CMakeが更新されても、自身のプロジェクトが壊れる心配はない(なぜなら新しいバージョンによるポリシーは適応されないからです)
+  - ポリシーは、`project()`コマンドなどの他の大切なコマンドを含む、CMakeのあらゆる点で影響する
+    - だから、CMakeList.txtの一番初めに設定しないといけない
+    - CMakeのバージョンの変化での問題に遭遇しない限り、そんなに真面目にポリシーの詳細を調べる必要はないよ(そこまで来たら、公式ドキュメントを見よう)
+- `project()`コマンドについて
+  - `cmake_minimum_required()`の後に書きましょう
+
+```cmake
+# project()の使い方
+project(<PROJECT-NAME> 
+        [VERSION <major>[.<minor>[.<patch>[.<tweak>]]]]
+        [DESCRIPTION <project-description-string>]
+        [HOMEPAGE_URL <url-string>]
+        [LANGUAGES <language-name>...]
+        )
+```
+
+- これを実行すると、暗黙的に下記の変数に値が格納される
+  - `PROJECT_NAME`, `CMAKE_PROJECT_NAME`, `PROJECT_IS_TOP_LEVEL`, `<PROJECT_NAME>_IS_TOP_LEVEL`,
+  `PROJECT_SOURCE_DIR`,`<PROJECT_NAME>_SOURCE_DIR`,
+  `PROJECT_BINARY_DIR`,`<PROJECT-NAME>_BINARY_DIR`
+- サポートしている言語は以下の通り(デフォルトは、C/C++が設定されている)
+  - `ASM`など : アッセンブリ言語, `C` : C, `CXX` : C++, `CSharp` : C#, `Java` : Java, `CUDA` : CUDA, `OBJC` : Objective-C, `OBJCXX` : Objective-C++, `Fortran` : Fortran, `HIP` : AMDやCUDAなどのクロスGPUプログラミングするためのAPI, `ISPC` : Intel開発のCPU/GPUで並列計算するコンパイラ
+  - 明示的に`CXX(C++)`と設定することで、CMakeの厚生次官をスキップすることができる
+- `project()`で`VERSION`を設定することで、自動的に下記CMakeの変数に設定され、コンパイル時にヘッダーファイルにさらされる(詳細は、7章にて)
+  - `PROJECT_VERSION, <PROJECT-NAME>_VERSION, CMAKE_PROJECT_VERSION, PROJECT_VERSION_MAJOR, <PROJECT-NAME>_VERSION_MAJOR, PROJECT_VERSION_MINOR, <PROJECT-NAME>_VERSION_MINOR, PROJECT_VERSION_PATCH, <PROJECT-NAME>_VERSION_PATCH, PROJECT_VERSION_TWEAK, <PROJECT-NAME>_VERSION_TWEAK`
+- `project()`に`DESCRIPTION`や`HOMEPAGE_URL`を設定すると、下記の変数に自動的に格納される
+  - `PROJECT_DESCRIPTION, <PROJECT-NAME>_DESCRIPTION, PROJECT_HOMEPAGE_URL, <PROJECT-NAME>_HOMEPAGE_URL`
+- `cmake_minimum_required()`と`project()`コマンドは、空のプロジェクトを初期化する
+
+
 

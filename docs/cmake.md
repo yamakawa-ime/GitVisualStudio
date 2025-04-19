@@ -835,3 +835,5 @@ lib3
   9. 全てのターゲットを確認し、buildSystemを最終的に作る
 - 重要なことは、listfileに書いた順番でコマンドが確実に実行されるということです
 - 場合によっては、実行順番が重要なことがあるが、場合によっては順番が重要じゃない時もある(5章で解説)
+- OSの違いにより、命令を変更せざる負えない場合は、`CMAKE_SYSTEM_NAME`や`CMAKE_SYSTEM_VERSION`の変数を使うと、LinuxやWindowsなどをif文で分けることができるが、なるべくOSに依存しないようにCMakeのCross Platformの機能を使って、CMakeプロジェクトを作るほうがいいよ
+

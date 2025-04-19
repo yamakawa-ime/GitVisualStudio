@@ -777,6 +777,8 @@ target_include_directories(CarsSystem PUBLIC .)
 project
 ├── cmake
 ├── src
+|　　//このCMakeList.txtでプロジェクトの重要なSettingや、ネストしたディレクトリの全てのCMakeList.txtをIncludeする
+|   ├── CMakeLists.txt 
 |   ├── app1 ── lib3
 |   ├── app2
 |   ├── lib1
@@ -790,4 +792,46 @@ project
 
 - この構造では、CMakeList.txtは、「プロジェクトのトップレベルのディレクトリ」と「テスト」と「src」と全ての「subdirectory」のディレクトリに配置する必要がある
 - トップのCMakeList.txtでは`add_subdirectory()`を使って、他のプロジェクトのビルドは委譲するようにする
+- app1フォルダは以下の構成になるはず
 
+```
+app1
+├── CMakeLists.txt
+├── class_a.cpp
+├── class_b.cpp
+├── main.cpp
+├── include
+|   ├── class_a.h
+|   └── class_b.h
+└── lib3
+    ├── CMakeLists.txt
+    ├── lib3.cpp
+    └── lib3.h
+```
+
+- lib3ディレクトリの構成は以下の通り
+
+```
+lib3
+├── CMakeLists.txt
+├── include
+|   ├── lib1 ── lib.h 
+|   └── private_header.h
+└── src
+    ├── CMakeLists.txt
+    └── lib1.cpp
+```
+
+- p110の構造を実現しているCMakeプロジェクトのサンプルは[GitHub](https://github.com/PacktPublishing/Modern-CMake-for-Cpp-2E/tree/main/examples/ch04/05-structure)にあるので参考にすること
+- 階層構造がある場合はCMakeは下記の通りに実行する
+  1. プロジェクトのルートにCMakeList.txtを配置し、CMakeのバージョン、プロジェクト名、サポート言語、グローバル変数、cmakeディレクトリからインクルードするファイルを記述する
+  2. `add_subdirectory(src bin)`とすることで、srcディレクトリのスコープを入力する（あえてbinを設定することで、生成物を`<binary_tree>/src`よりも`<binary_tree>/bin`に生成する）
+  3. CMakeは`src/CMakeLists.txt`を読み、その中の、app1, app2, lib1, lib2というネストしたディレクトリを読み込むように指示する
+  4. CMakeはapp1の変数スコープに入り、app1のライブラリであるlib3を、app1のCMakeList.txtから読み取って、lib3のスコープに入る(CMakeは順にディレクトリを掘っていって、解析する)
+  5. lib3ライブラリは、同じ名前でStaticライブラリを追加し、CMakeはapp1の親のスコープに戻ります
+  6. app1サブディレクトリはlib3に依存する実行ファイルを追加します。CMakeはsrcのスコープに戻ります
+  7. CMakeは引き続き残っているadd_subdirectory()で追加した全てのネストしたディレクトリを読み込むまで進みます
+  8. CMakeはトップレベルのスコープに戻って、`add_subdirectory(test)`のコマンドを実行し、同様にフォルダを掘って、CMakeList.txtを実行する
+  9. 全てのターゲットを確認し、buildSystemを最終的に作る
+- 重要なことは、listfileに書いた順番でコマンドが確実に実行されるということです
+- 場合によっては、実行順番が重要なことがあるが、場合によっては順番が重要じゃない時もある(5章で解説)

@@ -837,3 +837,59 @@ lib3
 - 場合によっては、実行順番が重要なことがあるが、場合によっては順番が重要じゃない時もある(5章で解説)
 - OSの違いにより、命令を変更せざる負えない場合は、`CMAKE_SYSTEM_NAME`や`CMAKE_SYSTEM_VERSION`の変数を使うと、LinuxやWindowsなどをif文で分けることができるが、なるべくOSに依存しないようにCMakeのCross Platformの機能を使って、CMakeプロジェクトを作るほうがいいよ
 
+### Toolchainを構成する
+
+- Toolchainはアプリケーションをビルドしたり、起動するために使われる全てのツールで構成されている
+  - 動作環境や生成器、CMakeの実行環境やコンパイラーなどで、もし何かToolchainでエラーがあれば、各Featureに対して明確なエラーを表示する
+- C++のバージョンは最小でも14となる。C++17や20を勧める
+  - C++のバージョンは`set(CMAKE_CXX_STANDARD 23)`として設定できる
+  - targetごとに設定する場合は、`set_property(TARGET <target> PROPERTY CXX_STANDARD <version>)`もしくは`set_target_properties(<target> PROPERTIES CXX_STANDARD <version>)`
+  - 注意：コンパイラーが上記で設定したC++のバージョンをサポートしてなくても、とくにCMake的にはエラーとしてStopしない
+  - 明示的に絶対あるC++のバージョンに従わせたい場合は、`set(CMAKE_CXX_STANDARD_REQUIRED ON)`とする
+    - もしコンパイラが指定したC++をサポートしてなければ、この設定のおかげでCMakeはエラーをはいてStopする
+
+### テストファイルをコンパイルする
+
+- コンパイラーが一部のC++の機能が使えない場合は、ユーザーがその事実がわからない場合があるので、テストファイルを作ってコンパイルが通るか確かめることが必要で、CMakeはそのちょっとしたコードをテストする機能を持っている
+  - `try_compile()`と`run_run()`を使って自身の環境が動作するかを確認することができる
+  - `try_run()`であれば、コンパイルもして、実行もできる（ほかのOSであれば、実行ができない場合があるので注意）
+  - この機能は、ユーザーに希望のC++がサポートされているかを素早くFeedbackするための機能である(UnitTestではないよ)
+- CMakeLists.txtは以下の通りで、普通に`cmake -S .\ -B .\Build\`を実行すれば、ビルドの途中でテストコードが実行される
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(TestRun CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# コンパイラーベンダーの拡張はOFFにする
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# ${CMAKE_BINARY_DIR}/test_outputは、出力ディレクトリ
+# ${CMAKE_SOURCE_DIR}/main.cppは、チェックするテストファイル
+try_run(run_result compile_result
+        ${CMAKE_BINARY_DIR}/test_output ${CMAKE_SOURCE_DIR}/main.cpp
+        RUN_OUTPUT_VARIABLE output)
+
+# try_runで変数run_result、compile_result、outputに入った値を確認する
+# outputはstdoutで出力された値が入る
+message("run_result: ${run_result}")
+message("compile_result: ${compile_result}")
+message("output:\n\n${output}")
+```
+
+- プロジェクトをビルドするときに、普通は`cmake -S .\ -B .\Build\`として、ソースディレクトリとビルド先のディレクトリを分けるが、不意に、ソースディレクトリとビルドディレクトリが同じになってしまうと、CMakeList.txtのフォルダに、ビルドバイナリが生成されてしまって、メンテナンスが面倒になる。
+  - これを防ぐために、CMakeLists.txtにif文を入れて、けん制することができる
+
+``` cmake
+cmake_minimum_required(VERSION 3.26)
+project(NoInSource CXX)
+
+# ここで、ビルド先とソースが同じかどうかの判定をする
+if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
+  message(FATAL_ERROR "In-source builds are not allowed")
+endif()
+message("Build successful!")
+```
+
+## 5: Working with Targets

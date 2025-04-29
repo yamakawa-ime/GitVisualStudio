@@ -894,3 +894,45 @@ message("Build successful!")
 
 ## 5: Working with Targets
 
+### ターゲットの意味を理解する
+
+- GNU Makeを利用しているときはTargetの意味はすでに見ていると思うが、本質的にはTargetの意味は、一連のファイルを他のファイルにコンパイルするためにビルドシステムが従うレシピみたいなもの
+  - cppファイルはObjectファイルにコンパイルされたり、一連のObjectファイルが.aのStaticライブラリにパッケージ化される
+- CMakeでは、時間を節約するために、そういったレシピの中にある中間ステップをスキップする(高いレベルで抽象化できる)
+  - GNU MakeのようにこまごまとしたCommandを書かなくてもよくなる
+- 一番必要なことは、`add_executable()`を使って、実行ターゲットとそれに必要なcppファイルを書くことである
+  - Generationステップで、CMakeはBuildSystemを作り、ソースファイルをコンパイルする適切なレシピでBuildSystem設定し、1つの実行ファイルにするために、ソースファイルをリンクする
+
+```cmake
+add_executable(app1 a.cpp b.cpp c.cpp)
+```
+
+- CMakeでは、下記の３つのコマンドでTargetを作ることができる
+
+```cmake
+add_executable()
+add_library()
+add_custom_target()
+```
+
+- CMakeは、実行ファイルやライブラリを生成する前に、生成された実行ファイルがソースファイルよりも古いかどうかを確認する
+  - タイムスタンプを比較することで、リビルド必要かどうか、不必要な再コンパイルを抑制することができる
+- これらのコマンドでは、第一引数にターゲットの名前を指定する必要がある(VSでいうとプロジェクトの名前)
+  - `target_link_libraries()`や`target_sources()`、`target_include_directories()`は、その名前を参照する
+
+#### 実行形式のTargetを定義する(Executable Targets)
+
+```cmake
+add_executable(<name> [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] [source1] [source2 ...])
+```
+
+- `WIN32`を指定すると、Windowsでビルドされた実行ファイル（.exe）が「コンソールアプリケーション」ではなく「GUIアプリケーション」として扱われます。
+- `MACOSX_BUNDLE`を指定すると、macOS/iOSのGUIアプリの実行形式になる
+- `EXCLUDE_FROM_ALL`は、そのターゲット（ライブラリや実行ファイル）をデフォルトのビルド対象から除外することを意味します。
+  - 通常の`cmake --build .`コマンドではビルドされません。
+  - ビルドするには、明示的に`cmake --build -t <target>`を実行する必要がある
+  - ユーティリティやテストコード、開発中のライブラリなど、通常のビルドには不要なターゲットを含めたいが、毎回ビルドはしたくないとき。
+- 注意：このコマンドで、ヘッダーファイルは指定しない
+  - ヘッダーファイルのリンクは、暗黙的に、`target_include_directories()`コマンドで追加されたディレクトリのパスが提供されたときや、`target_source()`コマンドの`FILE_SET`が使われたときにされる（7章で解説）
+
+#### ライブラリTargetを定義する

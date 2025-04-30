@@ -936,3 +936,58 @@ add_executable(<name> [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] [source1] [sour
   - ヘッダーファイルのリンクは、暗黙的に、`target_include_directories()`コマンドで追加されたディレクトリのパスが提供されたときや、`target_source()`コマンドの`FILE_SET`が使われたときにされる（7章で解説）
 
 #### ライブラリTargetを定義する
+
+```cmake
+add_library(<name> [STATIC | SHARED | MODULE] [EXCLUDE_FROM_ALL] [<source> ...])
+```
+
+- nameやEXCLUDE_FROM_ALLやsourceはExecutableTargetと同じ
+- `STATIC` : staticリンクライブラリ(lib)
+- `SHARED` : dllとlibが生成され、メインのプロジェクトにリンクできます **(VS2022だとlibになってた)**
+- `MODULE` : dllしか生成されずに、メインのプロジェクトにリンクしません(プラグイン作成で利用する) **(VS2022だとdllになってて、`target_link_libraries`を設定すると、ちゃんとリンカーで追加されてた)**
+
+#### カスタムTargetを定義する
+
+- カスタムターゲットとは、実行形式やライブラリと異なり、ビルドの一部として任意の処理を実行できる拡張をすることができる(ユーザー定義のコマンドを実行するだけ)
+- 使い方は以下のようなものがある
+  - 他のライブラリのチェックサムを計算する
+  - コードサニタイザ（静的解析・実行時検証ツールなど）を実行して、その結果を収集する
+  - レポートの生成
+- カスタムターゲットは、発展したプロジェクトでは有効に利用できる(上級者的)
+
+```cmake
+add_custom_target(<name> [ALL] [COMMAND command2 [args2...] ...])
+```
+
+#### 依存関係グラフを可視化する
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(BankApp CXX)
+
+add_executable(terminal_app terminal_app.cpp)
+add_executable(gui_app gui_app.cpp)
+# add_libraryでライブラリの名前を定義する前に、target_link_librariesで設定してもOK
+# CMakeは一度設定を定義してから、依存関係を構築するので、先に依存先の名前を書いても問題ない
+target_link_libraries(terminal_app calculations)
+target_link_libraries(gui_app calculations drawing)
+
+add_library(calculations calculations.cpp)
+add_library(drawing drawing.cpp)
+```
+
+- CMakeは依存関係をグラブ化してくれる機能を持っている
+
+```shell
+// ちゃんとビルドして、そのディレクトリに移動してから実行する
+cmake --graphviz=test.dot .
+```
+
+#### ターゲットのプロパティを設定
+
+```cmake
+# プロジェクトのプロパティを表示したい場合は、get_target_propertyでCMakeの変数に代入する
+get_target_property(<var> <target> <property-name>)
+# プロパティの設定は、複数のターゲットに複数のプロパティを一気に設定できる
+set_target_properties(<target1> <target2> ... PROPERTIES <prop1-name> <value1> <prop2-name> <value2> ...)
+```

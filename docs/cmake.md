@@ -928,7 +928,7 @@ add_executable(<name> [WIN32] [MACOSX_BUNDLE] [EXCLUDE_FROM_ALL] [source1] [sour
 
 - `WIN32`を指定すると、Windowsでビルドされた実行ファイル（.exe）が「コンソールアプリケーション」ではなく「GUIアプリケーション」として扱われます。
 - `MACOSX_BUNDLE`を指定すると、macOS/iOSのGUIアプリの実行形式になる
-- `EXCLUDE_FROM_ALL`は、そのターゲット（ライブラリや実行ファイル）をデフォルトのビルド対象から除外することを意味します。
+- `EXCLUDE_FROM_ALL`は、そのターゲット（ライブラリや実行ファイル）をデフォルトのビルド対象から除外することを意味します。(VS2022ではALL_BUILDのプロジェクトの依存関係のチェックマークが外れる(ALL_BUILDを実行したときに、そのプロジェクトはビルドされない))
   - 通常の`cmake --build .`コマンドではビルドされません。
   - ビルドするには、明示的に`cmake --build -t <target>`を実行する必要がある
   - ユーティリティやテストコード、開発中のライブラリなど、通常のビルドには不要なターゲットを含めたいが、毎回ビルドはしたくないとき。
@@ -991,3 +991,110 @@ get_target_property(<var> <target> <property-name>)
 # プロパティの設定は、複数のターゲットに複数のプロパティを一気に設定できる
 set_target_properties(<target1> <target2> ... PROPERTIES <prop1-name> <value1> <prop2-name> <value2> ...)
 ```
+
+- CMakeの公式ドキュメントでは、あるTargetが他のTargetに依存している状況を「usage」という
+- プロパティが伝搬する設定
+  - `PRIVATE` : ソースターゲットのプロパティ
+  - `INTERFACE` : 伝搬先のターゲットのプロパティ
+  - `PUBLIC` : ソースと伝搬先のターゲットのプロパティ
+- プロパティの設定を自分だけにしたい場合はPRIVATEにして、伝搬先にも必要であればPUBLICにする
+- ターゲット間で依存関係を作る場合は、`target_link_libraries()`を使う
+
+```cmake
+# デフォルトではPUBLICが設定
+target_link_libraries(<target> <PRIVATE|PUBLIC|INTERFACE> <item>... [<PRIVATE|PUBLIC|INTERFACE> <item>...] ...)
+```
+
+- 伝搬キーワード
+  - `PRIVATE` : ソースの値をソースのターゲットのPrivateプロパティに追加する
+  - `INTERFACE` : ソースの値をソースのターゲットのInterfaceプロパティに追加する
+  - `PUBLIC` : ソースターゲットの両方のプロパティに追加する
+- CMakeのターゲットの便利さを、“実際にはビルドされないけど管理したい対象”にも使えるようにした仕組みがあり、それを“擬似ターゲット（pseudo targets）”と呼ぶ
+  - Imported target（インポートターゲット）：外部ライブラリ（CMakeでビルドされていないもの）をラップして扱える。
+  - Alias target（エイリアスターゲット）：既存ターゲットに別名を付けるだけ。
+  - Interface library（インターフェースライブラリ）：コンパイル対象ではなく、使用する側にだけ情報（ヘッダパスなど）を伝えるためのターゲット。
+- Imported Targetについて
+  - 他のプロジェクトやライブラリなど、外部の依存関係を管理する方法
+  - CMakeは`find_package()`で外部の依存関係を定義できる
+- Alias Rargetについて
+  - 都合があって、別名をつけたい場合はこれを使うよ
+
+```cmake
+# 実行ファイルであれば、add_executableのAliasオプションで別名をつけられる
+add_executable(<name> ALIAS <target>)
+# ライブラリであれば、add_libraryのAliasオプションで別名をつけられる
+add_library(<name> ALIAS <target>)
+```
+
+- Interfaceライブラリについて
+  - コンパイルせずにUtilが入っているライブラリがある場合は、これが使える
+  - ヘッダーだけのライブラリとかで使う
+
+```cmake
+# ヘッダーファイルだけのライブラリの定義
+add_library(my_headers INTERFACE)
+# includeディレクトリを依存先に伝播させる
+target_include_directories(my_headers INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+```
+
+- ライブラリ利用側は、ヘッダーライブラリをリンクする必要がある
+
+```cmake
+# 実行ファイルの追加
+add_executable(my_app src/main.cpp)
+
+# ヘッダーライブラリをリンク（target_include_directoriesで伝搬しているので、インクルードパスが伝播される）
+target_link_libraries(my_app PRIVATE my_headers)
+```
+
+- BankAppでinclude\mylib\Util.hを追加するとする
+
+```cmake
+cmake_minimum_required(VERSION 3.26)
+project(BankApp CXX)
+
+# ヘッダーオンリーのインターフェースライブラリを定義
+add_library(mylib_headers INTERFACE)
+
+# includeディレクトリを依存先に伝播させる
+target_include_directories(mylib_headers INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+# 実行ファイルを定義
+add_executable(terminal_app terminal_app.cpp)
+add_executable(gui_app gui_app.cpp)
+
+# ライブラリを定義（リンクされる対象）
+add_library(calculations calculations.cpp)
+add_library(drawing drawing.cpp)
+
+# 実行ファイルに必要なライブラリをリンク（インクルードパスも伝播）
+target_link_libraries(terminal_app PRIVATE calculations mylib_headers)
+target_link_libraries(gui_app PRIVATE calculations drawing mylib_headers)
+```
+
+```cmake
+add_library(warning_properties INTERFACE)
+# my_app は -Wall -Wextra -Wpedantic をコンパイルオプションとして自動的に適用されるようになります。
+target_compile_options(warning_properties INTERFACE -Wall -Wextra -Wpedantic)
+target_link_libraries(my_app PRIVATE warning_properties)
+```
+
+- Objectライブラリ
+  - オブジェクトライブラリは複数のソースファイルを1つの論理ターゲットとしてグループ化して、(.o)ファイルとしてオブジェクトファイルにコンパイルします
+  - オブジェクトライブラリを作る場合は、add_libraryにOBJECTオプションをつけます
+
+```cmake
+add_library(<target> OBJECT <sources>)
+```
+
+- 実際に、メインターゲットにリンクする場合は以下のようになる
+
+```cmake
+# 実際にはリンク可能なライブラリではなく、中間ファイル（オブジェクトファイル）だけを提供する
+add_library(core_logic OBJECT core.cpp helper.cpp)
+
+# $<TARGET_OBJECTS:core_logic>として、追加する
+add_executable(terminal_app terminal_app.cpp $<TARGET_OBJECTS:core_logic>)
+add_executable(gui_app gui_app.cpp $<TARGET_OBJECTS:core_logic>)
+```
+
